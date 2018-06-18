@@ -1,9 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Length, IsEmail } from 'class-validator';
-import { Athlete } from './athlete';
+import { Coach } from './coach';
 
 @Entity()
-export class Coach {
+export class Athlete {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -20,6 +20,6 @@ export class Coach {
     @IsEmail()
     email: string;
 
-    @OneToMany(type => Athlete, athlete => athlete.coach)
-    athletes: Promise<Athlete[]>;
+    @ManyToOne(type => Coach, coach => coach.athletes, { onDelete: 'SET NULL' })
+    coach: Promise<Coach>;
 }

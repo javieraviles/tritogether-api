@@ -13,6 +13,11 @@ export default class CoachController {
         // load all coaches
         const coaches: Coach[] = await coachRepository.find();
 
+        // lazy load each list of athletes
+        for (const coach of coaches) {
+            await coach.athletes;
+        }
+
         // return loaded coaches
         ctx.body = coaches;
     }
@@ -24,6 +29,9 @@ export default class CoachController {
 
         // load coach by id
         const coach: Coach = await coachRepository.findOne(ctx.params.id);
+
+        // lazy load list of athletes
+        await coach.athletes;
 
         if (coach) {
             // return loaded coach
