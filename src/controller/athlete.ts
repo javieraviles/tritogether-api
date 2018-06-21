@@ -90,11 +90,14 @@ export default class AthleteController {
         athleteToBeUpdated.id = +ctx.params.id;
         athleteToBeUpdated.name = ctx.request.body.name;
         athleteToBeUpdated.email = ctx.request.body.email;
+
         // if valid coach specified, relate it. Else, remove it.
         if (Boolean(ctx.request.body.coach) && await coachRepository.findOne(ctx.request.body.coach.id)) {
             const coach = new Coach();
             coach.id = ctx.request.body.coach.id;
             athleteToBeUpdated.coach = coach;
+        } else {
+            athleteToBeUpdated.coach = null;
         }
 
         // validate athlete entity

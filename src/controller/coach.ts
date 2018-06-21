@@ -2,6 +2,7 @@ import { BaseContext } from 'koa';
 import { getManager, Repository, Not, Equal } from 'typeorm';
 import { validate, ValidationError } from 'class-validator';
 import { Coach } from '../entity/coach';
+import { Athlete } from '../entity/athlete';
 
 export default class CoachController {
 
@@ -36,17 +37,17 @@ export default class CoachController {
 
     }
 
-    public static async getCoachWithAthletes (ctx: BaseContext) {
+    public static async getCoachAthletes (ctx: BaseContext) {
 
-        // get a coach repository to perform operations with coach
-        const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
+        // get an athlete repository to perform operations with athlete
+        const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
-        // load coach by id with athletes
-        const coach: Coach = await coachRepository.findOne(ctx.params.id, { relations: ['athletes'] });
+        // load athletes for a specific coach
+        const athletes: Athlete[] = await athleteRepository.find({ coach: ctx.params.id });
 
-        if (coach) {
-            // return loaded coach
-            ctx.body = coach;
+        if (athletes) {
+            // return loaded collection of athletes
+            ctx.body = athletes;
         } else {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
