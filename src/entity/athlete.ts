@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Length, IsEmail } from 'class-validator';
 import { Coach } from './coach';
 
@@ -10,7 +10,7 @@ export class Athlete {
     @Column({
         length: 80
     })
-    @Length(10, 80)
+    @Length(5, 80)
     name: string;
 
     @Column({
@@ -21,5 +21,11 @@ export class Athlete {
     email: string;
 
     @ManyToOne(type => Coach, coach => coach.athletes, { onDelete: 'SET NULL' })
-    coach: Promise<Coach>;
+    coach: Coach;
+
+    @CreateDateColumn({type: 'timestamp'})
+    createdAt: Date;
+
+    @UpdateDateColumn({type: 'timestamp'})
+    updatedAt: Date;
 }

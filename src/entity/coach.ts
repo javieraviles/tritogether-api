@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Length, IsEmail } from 'class-validator';
 import { Athlete } from './athlete';
 
@@ -10,7 +10,7 @@ export class Coach {
     @Column({
         length: 80
     })
-    @Length(10, 80)
+    @Length(5, 80)
     name: string;
 
     @Column({
@@ -21,5 +21,11 @@ export class Coach {
     email: string;
 
     @OneToMany(type => Athlete, athlete => athlete.coach)
-    athletes: Promise<Athlete[]>;
+    athletes: Athlete[];
+
+    @CreateDateColumn({type: 'timestamp'})
+    createdAt: Date;
+
+    @UpdateDateColumn({type: 'timestamp'})
+    updatedAt: Date;
 }
