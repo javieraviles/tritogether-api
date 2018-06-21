@@ -11,7 +11,7 @@ export default class CoachController {
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
         // load all coaches
-        const coaches: Coach[] = await coachRepository.find({ relations: ['athletes'] });
+        const coaches: Coach[] = await coachRepository.find();
 
         // return loaded coaches
         ctx.body = coaches;
@@ -23,6 +23,25 @@ export default class CoachController {
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
         // load coach by id
+        const coach: Coach = await coachRepository.findOne(ctx.params.id);
+
+        if (coach) {
+            // return loaded coach
+            ctx.body = coach;
+        } else {
+            // return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.body = 'The coach you are trying to retrieve doesn\'t exist in the db';
+        }
+
+    }
+
+    public static async getCoachWithAthletes (ctx: BaseContext) {
+
+        // get a coach repository to perform operations with coach
+        const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
+
+        // load coach by id with athletes
         const coach: Coach = await coachRepository.findOne(ctx.params.id, { relations: ['athletes'] });
 
         if (coach) {
