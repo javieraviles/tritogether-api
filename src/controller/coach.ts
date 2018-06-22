@@ -15,6 +15,7 @@ export default class CoachController {
         const coaches: Coach[] = await coachRepository.find();
 
         // return loaded coaches
+        ctx.status = 200;
         ctx.body = coaches;
     }
 
@@ -28,6 +29,7 @@ export default class CoachController {
 
         if (coach) {
             // return loaded coach
+            ctx.status = 200;
             ctx.body = coach;
         } else {
             // return a BAD REQUEST status code and error message
@@ -47,11 +49,12 @@ export default class CoachController {
 
         if (athletes) {
             // return loaded collection of athletes
+            ctx.status = 200;
             ctx.body = athletes;
         } else {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The coach you are trying to retrieve doesn\'t exist in the db';
+            ctx.body = 'The coach you are trying to retrieve athletes from doesn\'t exist in the db';
         }
 
     }
@@ -79,7 +82,7 @@ export default class CoachController {
             ctx.body = 'The specified e-mail address already exists';
         } else {
             // save the coach contained in the POST body
-            const coach = await coachRepository.save(coachToBeSaved);
+            const coach: Coach = await coachRepository.save(coachToBeSaved);
             // return created status code and updated coach
             ctx.status = 201;
             ctx.body = coach;
@@ -105,8 +108,8 @@ export default class CoachController {
             // return bad request status code and errors array
             ctx.status = 400;
             ctx.body = errors;
-        } else if ( +ctx.state.user.id !== coachToBeUpdated.id ) {
-            // check token id and coach id are the same
+        } else if ( (+ctx.state.user.id !== coachToBeUpdated.id) || (ctx.state.user.rol !== 'coach') ) {
+            // check token is from a coach and its id and coach id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'A coach can only be updated by its own user';
@@ -121,7 +124,7 @@ export default class CoachController {
             ctx.body = 'The specified e-mail address already exists';
         } else {
             // save the coach contained in the PUT body
-            const coach = await coachRepository.save(coachToBeUpdated);
+            const coach: Coach = await coachRepository.save(coachToBeUpdated);
             // return created status code and updated coach
             ctx.status = 201;
             ctx.body = coach;
@@ -132,7 +135,7 @@ export default class CoachController {
     public static async deleteCoach (ctx: BaseContext) {
 
         // get a coach repository to perform operations with coach
-        const coachRepository = getManager().getRepository(Coach);
+        const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
         // TODO: check token mail and coach mail are the same
 
@@ -143,8 +146,8 @@ export default class CoachController {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The coach you are trying to delete doesn\'t exist in the db';
-        } else if ( +ctx.state.user.id !== coachToRemove.id ) {
-            // check token id and coach id are the same
+        } else if ( (+ctx.state.user.id !== coachToRemove.id) || (ctx.state.user.rol !== 'coach')  ) {
+            // check token is from a coach and its id and coach id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'A coach can only be deleted by its own user';

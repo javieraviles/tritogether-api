@@ -11,10 +11,11 @@ export default class AthleteController {
         // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
-        // load all athletes
+        // load all athletes with their coaches included
         const athletes: Athlete[] = await athleteRepository.find({ relations: ['coach'] });
 
         // return loaded athletes
+        ctx.status = 200;
         ctx.body = athletes;
     }
 
@@ -23,11 +24,12 @@ export default class AthleteController {
         // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
-        // load athlete by id
+        // load athlete by id with coach entity included
         const athlete: Athlete = await athleteRepository.findOne(ctx.params.id, { relations: ['coach'] });
 
         if (athlete) {
             // return loaded athlete
+            ctx.status = 200;
             ctx.body = athlete;
         } else {
             // return a BAD REQUEST status code and error message
@@ -49,10 +51,10 @@ export default class AthleteController {
         const athleteToBeSaved: Athlete = new Athlete();
         athleteToBeSaved.name = ctx.request.body.name;
         athleteToBeSaved.email = ctx.request.body.email;
+
         // if valid coach specified, relate it.
-        if (Boolean(ctx.request.body.coach) && await coachRepository.findOne(ctx.request.body.coach.id)) {
-            const coach = new Coach();
-            coach.id = ctx.request.body.coach.id;
+        let coach: Coach = new Coach();
+        if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(ctx.request.body.coach.id)) ) {
             athleteToBeSaved.coach = coach;
         }
 
@@ -69,7 +71,7 @@ export default class AthleteController {
             ctx.body = 'The specified e-mail address already exists';
         } else {
             // save the athlete contained in the POST body
-            const athlete = await athleteRepository.save(athleteToBeSaved);
+            const athlete: Athlete = await athleteRepository.save(athleteToBeSaved);
             // return created status code and updated athlete
             ctx.status = 201;
             ctx.body = athlete;
@@ -92,9 +94,8 @@ export default class AthleteController {
         athleteToBeUpdated.email = ctx.request.body.email;
 
         // if valid coach specified, relate it. Else, remove it.
-        if (Boolean(ctx.request.body.coach) && await coachRepository.findOne(ctx.request.body.coach.id)) {
-            const coach = new Coach();
-            coach.id = ctx.request.body.coach.id;
+        let coach: Coach = new Coach();
+        if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(ctx.request.body.coach.id)) ) {
             athleteToBeUpdated.coach = coach;
         } else {
             athleteToBeUpdated.coach = null;
@@ -107,8 +108,8 @@ export default class AthleteController {
             // return bad request status code and errors array
             ctx.status = 400;
             ctx.body = errors;
-        } else if ( +ctx.state.user.id !== athleteToBeUpdated.id ) {
-            // check token id and athlete id are the same
+        } else if ( (+ctx.state.user.id !== athleteToBeUpdated.id) || (ctx.state.user.rol !== 'athlete') ) {
+            // check token is from an athlete and its id and athlete id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'An athlete can only be updated by its own user';
@@ -123,7 +124,7 @@ export default class AthleteController {
             ctx.body = 'The specified e-mail address already exists';
         } else {
             // save the athlete contained in the PUT body
-            const athlete = await athleteRepository.save(athleteToBeUpdated);
+            const athlete: Athlete = await athleteRepository.save(athleteToBeUpdated);
             // return created status code and updated athlete
             ctx.status = 201;
             ctx.body = athlete;
@@ -134,7 +135,7 @@ export default class AthleteController {
     public static async deleteAthlete (ctx: BaseContext) {
 
         // get an athlete repository to perform operations with athlete
-        const athleteRepository = getManager().getRepository(Athlete);
+        const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
         // TODO: check token mail and athlete mail are the same
 
@@ -144,8 +145,8 @@ export default class AthleteController {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The athlete you are trying to delete doesn\'t exist in the db';
-        }  else if ( +ctx.state.user.id !== athleteToRemove.id ) {
-            // check token id and athlete id are the same
+        }  else if ( (+ctx.state.user.id !== athleteToRemove.id) || (ctx.state.user.rol !== 'athlete') ) {
+            // check token is from an athlete and its id and athlete id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'An athlete can only be deleted by its own user';
