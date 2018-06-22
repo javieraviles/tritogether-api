@@ -20,9 +20,6 @@ export class Coach {
     @IsEmail()
     email: string;
 
-    @OneToMany(type => Athlete, athlete => athlete.coach)
-    athletes: Athlete[];
-
     @CreateDateColumn({type: 'timestamp'})
     createdAt: Date;
 

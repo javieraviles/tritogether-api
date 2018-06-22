@@ -20,7 +20,7 @@ export class Athlete {
     @IsEmail()
     email: string;
 
-    @ManyToOne(type => Coach, coach => coach.athletes, { onDelete: 'SET NULL' })
+    @ManyToOne(type => Coach, { onDelete: 'SET NULL' })
     coach: Coach;
 
     @CreateDateColumn({type: 'timestamp'})
