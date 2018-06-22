@@ -18,4 +18,8 @@ router.post('/athletes', controller.athlete.createAthlete);
 router.put('/athletes/:id', controller.athlete.updateAthlete);
 router.delete('/athletes/:id', controller.athlete.deleteAthlete);
 
+// ACTIVITY ROUTES
+router.get('/athletes/:id/activities', controller.activity.getAthleteActivities);
+router.post('/activities', controller.activity.createActivity);
+
 export { router };
