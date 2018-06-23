@@ -20,6 +20,7 @@ router.delete('/athletes/:id', controller.athlete.deleteAthlete);
 
 // ACTIVITY ROUTES
 router.get('/athletes/:id/activities', controller.activity.getAthleteActivities);
-router.post('/activities', controller.activity.createActivity);
+router.get('/athletes/:athleteId/activities/:activityId', controller.activity.getAthleteActivity);
+router.post('athletes/:id/activities', controller.activity.createActivity);
 
 export { router };

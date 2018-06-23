@@ -16,14 +16,17 @@ export default class ActivityController {
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
         // load athlete by id with coach entity included
+        // the athlete could not have a coach assigned at this moments so can't assume athlete.coach.id will exist
+        let coachId: number = null;
         const athlete: Athlete = await athleteRepository.findOne(ctx.params.id, { relations: ['coach'] });
+        coachId = athlete.coach ? athlete.coach.id : null;
 
         if ( !athlete ) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The athlete you are trying to retrieve activities from doesn\'t exist in the db';
         } else if ( ((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
-                    || (Boolean(athlete.coach) && (+ctx.state.user.id !== athlete.coach.id) && (ctx.state.user.rol === 'coach'))
+                    || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === 'coach'))
         ) {
             // check if the token of the user performing the request is not either the athlete or the current athlete's coach
             // return a FORBIDDEN status code and error message
@@ -33,11 +36,60 @@ export default class ActivityController {
             // load activities for the specified athlete
             const activities: Activity[] = await activityRepository.find({
                 relations: ['discipline'],
-                where: { athlete: ctx.params.id }
+                where: { athlete: ctx.params.id },
+                order: {
+                    date: ctx.query.order
+                },
+                skip: ctx.query.skip,
+                take: ctx.query.take
             });
             // return loaded collection of activities
             ctx.status = 200;
             ctx.body = activities;
+        }
+    }
+
+    public static async getAthleteActivity (ctx: BaseContext) {
+
+        // get an activity repository to perform operations with activity
+        const activityRepository: Repository<Activity> = getManager().getRepository(Activity);
+
+        // get an athlete repository to perform operations with athlete
+        const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
+
+        // load activity for the specified activityId
+        const activity: Activity = await activityRepository.findOne(ctx.params.activityId, { relations: ['athlete', 'discipline'] });
+
+        // load activity athlete with coach entity included
+        // the athlete could not have a coach assigned at this moments so can't assume athlete.coach.id will exist
+        let coachId: number = null;
+        const athlete: Athlete = await athleteRepository.findOne(ctx.params.activityId, { relations: ['coach'] });
+        coachId = athlete.coach ? athlete.coach.id : null;
+
+        if ( !activity ) {
+            // return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.body = 'The activity you are trying to retrieve doesn\'t exist in the db';
+        } else if ( !athlete ) {
+            // return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.body = 'The athlete you are trying to retrieve the activity from doesn\'t exist in the db';
+        } else if (athlete.id !== activity.athlete.id) {
+            // return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.body = 'The specified athlete is not the owner of the activity';
+        } else if ( ((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
+                    || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === 'coach'))
+        ) {
+            // check if the token of the user performing the request is not either the athlete
+            // or the current athlete's coach related to the activity
+            // return a FORBIDDEN status code and error message
+            ctx.status = 403;
+            ctx.body = 'An activity can only be displayed by the owner athlete or its current coach';
+        } else {
+            // return loaded activity
+            ctx.status = 200;
+            ctx.body = activity;
         }
     }
 
@@ -57,12 +109,11 @@ export default class ActivityController {
         activityToBeSaved.description = ctx.request.body.description;
         activityToBeSaved.date = new Date(ctx.request.body.date);
 
-        console.log(activityToBeSaved.date);
-
         // if valid athlete specified, relate it.
+        // the athlete could not have a coach assigned at this moments so can't assume athlete.coach.id will exist
         let athlete: Athlete = new Athlete();
         let coachId: number = null;
-        if (Boolean(ctx.request.body.athlete) && (athlete = await athleteRepository.findOne(ctx.request.body.athlete.id, { relations: ['coach'] })) ) {
+        if (Boolean(ctx.request.body.athlete) && (athlete = await athleteRepository.findOne(ctx.params.id, { relations: ['coach'] })) ) {
             activityToBeSaved.athlete = athlete;
             coachId = activityToBeSaved.athlete.coach ? activityToBeSaved.athlete.coach.id : null;
         }
@@ -76,7 +127,11 @@ export default class ActivityController {
         // validate activity entity
         const errors: ValidationError[] = await validate(activityToBeSaved); // errors is an array of validation errors
 
-        if (errors.length > 0) {
+         if ( !athlete ) {
+            // return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.body = 'The athlete you are trying to retrieve activities from doesn\'t exist in the db';
+         } else if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
             ctx.body = errors;
