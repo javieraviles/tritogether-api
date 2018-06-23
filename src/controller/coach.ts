@@ -25,7 +25,7 @@ export default class CoachController {
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
         // load coach by id
-        const coach: Coach = await coachRepository.findOne(ctx.params.id);
+        const coach: Coach = await coachRepository.findOne(+ctx.params.id || 0);
 
         if (coach) {
             // return loaded coach
@@ -45,9 +45,11 @@ export default class CoachController {
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
         // load athletes for a specific coach
-        const athletes: Athlete[] = await athleteRepository.find({ coach: ctx.params.id });
+        const coach = new Coach();
+        coach.id = +ctx.params.id || 0;
+        const athletes: Athlete[] = await athleteRepository.find({ coach: coach });
 
-        if (athletes) {
+        if (athletes && coach.id > 0) {
             // return loaded collection of athletes
             ctx.status = 200;
             ctx.body = athletes;
@@ -97,7 +99,7 @@ export default class CoachController {
         // update the coach by specified id
         // build up entity coach to be updated
         const coachToBeUpdated: Coach = new Coach();
-        coachToBeUpdated.id = +ctx.params.id;
+        coachToBeUpdated.id = +ctx.params.id || 0;
         coachToBeUpdated.name = ctx.request.body.name;
         coachToBeUpdated.email = ctx.request.body.email;
 
@@ -140,7 +142,7 @@ export default class CoachController {
         // TODO: check token mail and coach mail are the same
 
         // find the coach by specified id
-        const coachToRemove: Coach = await coachRepository.findOne(ctx.params.id);
+        const coachToRemove: Coach = await coachRepository.findOne(+ctx.params.id || 0);
 
         if (!coachToRemove) {
             // return a BAD REQUEST status code and error message

@@ -17,9 +17,12 @@ export default class ActivityController {
 
         // load athlete by id with coach entity included
         // the athlete could not have a coach assigned at this moments so can't assume athlete.coach.id will exist
+        // can't assume either that the athlete will exist
         let coachId: number = null;
-        const athlete: Athlete = await athleteRepository.findOne(ctx.params.id, { relations: ['coach'] });
-        coachId = athlete.coach ? athlete.coach.id : null;
+        let athlete: Athlete = new Athlete();
+        if (athlete = await athleteRepository.findOne(+ctx.params.id || 0, { relations: ['coach'] })) {
+            coachId = athlete.coach ? athlete.coach.id : null;
+        }
 
         if ( !athlete ) {
             // return a BAD REQUEST status code and error message
@@ -36,12 +39,12 @@ export default class ActivityController {
             // load activities for the specified athlete
             const activities: Activity[] = await activityRepository.find({
                 relations: ['discipline'],
-                where: { athlete: ctx.params.id },
+                where: { athlete: +ctx.params.id || 0 },
                 order: {
-                    date: ctx.query.order
+                    date: ctx.query.order === 'ASC' ? 'ASC' : 'DESC'
                 },
-                skip: ctx.query.skip,
-                take: ctx.query.take
+                skip: +ctx.query.skip || 0,
+                take: +ctx.query.take || 10
             });
             // return loaded collection of activities
             ctx.status = 200;
@@ -58,13 +61,16 @@ export default class ActivityController {
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
         // load activity for the specified activityId
-        const activity: Activity = await activityRepository.findOne(ctx.params.activityId, { relations: ['athlete', 'discipline'] });
+        const activity: Activity = await activityRepository.findOne(+ctx.params.activityId || 0, { relations: ['athlete', 'discipline'] });
 
         // load activity athlete with coach entity included
         // the athlete could not have a coach assigned at this moments so can't assume athlete.coach.id will exist
+        // can't assume either that the athlete will exist
         let coachId: number = null;
-        const athlete: Athlete = await athleteRepository.findOne(ctx.params.activityId, { relations: ['coach'] });
-        coachId = athlete.coach ? athlete.coach.id : null;
+        let athlete: Athlete = new Athlete();
+        if (athlete = await athleteRepository.findOne(+ctx.params.athleteId || 0, { relations: ['coach'] })) {
+            coachId = athlete.coach ? athlete.coach.id : null;
+        }
 
         if ( !activity ) {
             // return a BAD REQUEST status code and error message
@@ -113,7 +119,7 @@ export default class ActivityController {
         // the athlete could not have a coach assigned at this moments so can't assume athlete.coach.id will exist
         let athlete: Athlete = new Athlete();
         let coachId: number = null;
-        if (Boolean(ctx.request.body.athlete) && (athlete = await athleteRepository.findOne(ctx.params.id, { relations: ['coach'] })) ) {
+        if (Boolean(ctx.request.body.athlete) && (athlete = await athleteRepository.findOne(+ctx.params.id || 0, { relations: ['coach'] })) ) {
             activityToBeSaved.athlete = athlete;
             coachId = activityToBeSaved.athlete.coach ? activityToBeSaved.athlete.coach.id : null;
         }
