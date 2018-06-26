@@ -44,12 +44,16 @@ export default class CoachController {
         // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
-        // load athletes for a specific coach
-        const coach = new Coach();
-        coach.id = +ctx.params.id || 0;
-        const athletes: Athlete[] = await athleteRepository.find({ coach: coach });
+         // get a coach repository to perform operations with coach
+         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
-        if (athletes && coach.id > 0) {
+        // does specified coach exist?
+        const coachId = +ctx.params.id || 0;
+        const coach = await coachRepository.findOne(coachId);
+
+        if (coach) {
+            // if coach exists, load his athlete collection
+            const athletes: Athlete[] = await athleteRepository.find({ coach: coach });
             // return loaded collection of athletes
             ctx.status = 200;
             ctx.body = athletes;
