@@ -137,15 +137,13 @@ export default class AthleteController {
         // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
-        // TODO: check token mail and athlete mail are the same
-
         // find the athlete by specified id
         const athleteToRemove: Athlete = await athleteRepository.findOne(+ctx.params.id || 0);
         if (!athleteToRemove) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The athlete you are trying to delete doesn\'t exist in the db';
-        }  else if ( (+ctx.state.user.id !== athleteToRemove.id) || (ctx.state.user.rol !== 'athlete') ) {
+        } else if ( (+ctx.state.user.id !== athleteToRemove.id) || (ctx.state.user.rol !== 'athlete') ) {
             // check token is from an athlete and its id and athlete id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;

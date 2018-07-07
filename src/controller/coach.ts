@@ -16,7 +16,7 @@ export default class CoachController {
 
         // return loaded coaches
         ctx.status = 200;
-        ctx.body = coaches;
+        ctx.body = ctx.state.user;
     }
 
     public static async getCoach (ctx: BaseContext) {
