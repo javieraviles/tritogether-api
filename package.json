@@ -38,7 +38,9 @@
   ],
   "repository": "github:javieraviles/node-typescript-koa-rest",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.1",
     "@types/dotenv": "^4.0.3",
+    "@types/jsonwebtoken": "^7.2.8",
     "@types/koa": "2.0.44",
     "@types/koa-bodyparser": "^4.2.0",
     "@types/koa-helmet": "^3.1.2",
@@ -56,8 +58,10 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
+    "bcryptjs": "^2.4.3",
     "class-validator": "^0.8.5",
     "dotenv": "^5.0.1",
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-helmet": "^4.0.0",

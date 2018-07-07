@@ -1,6 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Length, IsEmail } from 'class-validator';
-import { Athlete } from './athlete';
 
 @Entity()
 export class Coach {
@@ -20,9 +19,22 @@ export class Coach {
     @IsEmail()
     email: string;
 
-    @CreateDateColumn({type: 'timestamp'})
+    @Column({
+        length: 60,
+        select: false
+    })
+    @Length(60)
+    password: string;
+
+    @CreateDateColumn({
+        type: 'timestamp',
+        select: false
+    })
     createdAt: Date;
 
-    @UpdateDateColumn({type: 'timestamp'})
+    @UpdateDateColumn({
+        type: 'timestamp',
+        select: false
+    })
     updatedAt: Date;
 }

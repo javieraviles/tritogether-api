@@ -1,6 +1,8 @@
 import { BaseContext } from 'koa';
+import * as bcryptjs from 'bcryptjs';
 import { getManager, Repository, Not, Equal } from 'typeorm';
 import { validate, ValidationError } from 'class-validator';
+import { config } from '../config';
 import { Coach } from '../entity/coach';
 import { Athlete } from '../entity/athlete';
 
@@ -16,7 +18,7 @@ export default class CoachController {
 
         // return loaded coaches
         ctx.status = 200;
-        ctx.body = ctx.state.user;
+        ctx.body = coaches;
     }
 
     public static async getCoach (ctx: BaseContext) {
@@ -74,6 +76,7 @@ export default class CoachController {
         const coachToBeSaved: Coach = new Coach();
         coachToBeSaved.name = ctx.request.body.name;
         coachToBeSaved.email = ctx.request.body.email;
+        coachToBeSaved.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
 
         // validate coach entity
         const errors: ValidationError[] = await validate(coachToBeSaved); // errors is an array of validation errors
@@ -106,6 +109,7 @@ export default class CoachController {
         coachToBeUpdated.id = +ctx.params.id || 0;
         coachToBeUpdated.name = ctx.request.body.name;
         coachToBeUpdated.email = ctx.request.body.email;
+        coachToBeUpdated.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
 
         // validate coach entity
         const errors: ValidationError[] = await validate(coachToBeUpdated); // errors is an array of validation errors

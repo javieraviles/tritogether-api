@@ -20,12 +20,25 @@ export class Athlete {
     @IsEmail()
     email: string;
 
+    @Column({
+        length: 60,
+        select: false
+    })
+    @Length(60)
+    password: string;
+
     @ManyToOne(type => Coach, { onDelete: 'SET NULL' })
     coach: Coach;
 
-    @CreateDateColumn({type: 'timestamp'})
+    @CreateDateColumn({
+        type: 'timestamp',
+        select: false
+    })
     createdAt: Date;
 
-    @UpdateDateColumn({type: 'timestamp'})
+    @UpdateDateColumn({
+        type: 'timestamp',
+        select: false
+    })
     updatedAt: Date;
 }

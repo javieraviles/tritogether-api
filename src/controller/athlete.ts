@@ -1,6 +1,8 @@
 import { BaseContext } from 'koa';
+import * as bcryptjs from 'bcryptjs';
 import { getManager, Repository, Not, Equal } from 'typeorm';
 import { validate, ValidationError } from 'class-validator';
+import { config } from '../config';
 import { Athlete } from '../entity/athlete';
 import { Coach } from '../entity/coach';
 
@@ -51,6 +53,7 @@ export default class AthleteController {
         const athleteToBeSaved: Athlete = new Athlete();
         athleteToBeSaved.name = ctx.request.body.name;
         athleteToBeSaved.email = ctx.request.body.email;
+        athleteToBeSaved.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
 
         // if valid coach specified, relate it.
         let coach: Coach = new Coach();
@@ -92,6 +95,7 @@ export default class AthleteController {
         athleteToBeUpdated.id = +ctx.params.id || 0;
         athleteToBeUpdated.name = ctx.request.body.name;
         athleteToBeUpdated.email = ctx.request.body.email;
+        athleteToBeUpdated.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
 
         // if valid coach specified, relate it. Else, remove it.
         let coach: Coach = new Coach();

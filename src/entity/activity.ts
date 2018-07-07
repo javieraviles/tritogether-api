@@ -26,9 +26,15 @@ export class Activity {
     @ManyToOne(type => Discipline, { onDelete: 'CASCADE' })
     discipline: Discipline;
 
-    @CreateDateColumn({type: 'timestamp'})
+    @CreateDateColumn({
+        type: 'timestamp',
+        select: false
+    })
     createdAt: Date;
 
-    @UpdateDateColumn({type: 'timestamp'})
+    @UpdateDateColumn({
+        type: 'timestamp',
+        select: false
+    })
     updatedAt: Date;
 }
