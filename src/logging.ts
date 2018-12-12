@@ -3,6 +3,21 @@ import { config } from './config';
 import * as winston from 'winston';
 
 export function logger(winstonInstance) {
+    winstonInstance.configure({
+        level: config.debugLogging ? 'debug' : 'info',
+        transports: [
+            //
+            // - Write all logs error (and below) to `error.log`.
+            new winston.transports.File({ filename: 'error.log', level: 'error' }),
+            //
+            // - Write to all logs with specified level to console.
+            new winston.transports.Console({ format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.simple()
+              ) })
+        ]
+    });
+
     return async(ctx: Koa.Context, next: () => Promise<any>) => {
 
         const start = new Date().getMilliseconds();
@@ -23,18 +38,6 @@ export function logger(winstonInstance) {
         }
 
         const msg: string = `${ctx.method} ${ctx.originalUrl} ${ctx.status} ${ms}ms`;
-
-        winstonInstance.configure({
-            level: config.debugLogging ? 'debug' : 'info',
-            transports: [
-                //
-                // - Write to all logs with level `debug` and below to console.
-                new winston.transports.Console({ colorize: true }),
-                //
-                // - Write all logs error (and below) to `error.log`.
-                new winston.transports.File({ filename: 'error.log', level: 'error' })
-            ]
-        });
 
         winstonInstance.log(logLevel, msg);
     };
