@@ -25,13 +25,13 @@ export default class AuthController {
         let user: any;
 
         if (Boolean(ctx.request.body.isCoach)) {
-            // load coach by email, query uses queryBuilder to addSelect(password), otherwise hidden
+            // load coach by email, query users queryBuilder to addSelect(password), otherwise hidden
             user = await coachRepository.createQueryBuilder('coach')
             .addSelect('coach.password')
             .where('coach.email = :email', { email: ctx.request.body.email })
             .getOne();
         } else {
-            // load athlete by email, query uses queryBuilder to addSelect(password), otherwise hidden
+            // load athlete by email, query users queryBuilder to addSelect(password), otherwise hidden
             user = await athleteRepository.createQueryBuilder('athlete')
             .addSelect('athlete.password')
             .where('athlete.email = :email', { email: ctx.request.body.email })

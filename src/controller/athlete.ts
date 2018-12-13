@@ -14,7 +14,13 @@ export default class AthleteController {
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
         // load all athletes with their coaches included
-        const athletes: Athlete[] = await athleteRepository.find({ relations: ['coach'] });
+        const athletes: Athlete[] = await athleteRepository.find({
+            order: {
+                name: ctx.query.order === 'ASC' ? 'ASC' : 'DESC'
+            },
+            skip: +ctx.query.skip || 0,
+            take: +ctx.query.take || 10
+        });
 
         // return loaded athletes
         ctx.status = 200;
@@ -29,14 +35,22 @@ export default class AthleteController {
         // load athlete by id with coach entity included
         const athlete: Athlete = await athleteRepository.findOne(+ctx.params.id || 0, { relations: ['coach'] });
 
-        if (athlete) {
-            // return loaded athlete
-            ctx.status = 200;
-            ctx.body = athlete;
-        } else {
+        if (!athlete) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The athlete you are trying to retrieve doesn\'t exist in the db';
+        } else if ( ((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
+                || ((!athlete.coach) && (ctx.state.user.rol === 'coach'))
+                || ((+ctx.state.user.id !== athlete.coach.id) && (ctx.state.user.rol === 'coach'))
+        ) {
+            // check if the token of the user performing the request is not either the athlete or the current athlete's coach
+            // return a FORBIDDEN status code and error message
+            ctx.status = 403;
+            ctx.body = 'Athlete information can only be retrieved by the owner athlete or its current coach';
+        } else {
+            // return loaded athlete
+            ctx.status = 200;
+            ctx.body = athlete;
         }
 
     }
@@ -57,7 +71,7 @@ export default class AthleteController {
 
         // if valid coach specified, relate it.
         let coach: Coach = new Coach();
-        if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(ctx.request.body.coach.id)) ) {
+        if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(+ctx.request.body.coach.id || 0)) ) {
             athleteToBeSaved.coach = coach;
         }
 
@@ -99,7 +113,7 @@ export default class AthleteController {
 
         // if valid coach specified, relate it. Else, remove it.
         let coach: Coach = new Coach();
-        if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(ctx.request.body.coach.id)) ) {
+        if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(+ctx.request.body.coach.id || 0)) ) {
             athleteToBeUpdated.coach = coach;
         } else {
             athleteToBeUpdated.coach = null;

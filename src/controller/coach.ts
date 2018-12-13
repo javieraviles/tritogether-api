@@ -53,16 +53,28 @@ export default class CoachController {
         const coachId = +ctx.params.id || 0;
         const coach = await coachRepository.findOne(coachId);
 
-        if (coach) {
-            // if coach exists, load his athlete collection
-            const athletes: Athlete[] = await athleteRepository.find({ coach: coach });
-            // return loaded collection of athletes
-            ctx.status = 200;
-            ctx.body = athletes;
-        } else {
+        if (!coach) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The coach you are trying to retrieve athletes from doesn\'t exist in the db';
+        } else if ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === 'coach')) {
+            // check if the token of the user performing the request is not the coach whose athletes are trying to be retrieved from
+            // return a FORBIDDEN status code and error message
+            ctx.status = 403;
+            ctx.body = 'A coach collection of athletes can only be retrieved by the coach itself';
+        } else {
+            // if coach exists and is the coach assigned to them, load his athlete collection
+            const athletes: Athlete[] = await athleteRepository.find({
+                where: { coach: coachId },
+                order: {
+                    name: ctx.query.order === 'ASC' ? 'ASC' : 'DESC'
+                },
+                skip: +ctx.query.skip || 0,
+                take: +ctx.query.take || 10
+            });
+            // return loaded collection of athletes
+            ctx.status = 200;
+            ctx.body = athletes;
         }
 
     }
@@ -92,7 +104,7 @@ export default class CoachController {
         } else {
             // save the coach contained in the POST body
             const coach: Coach = await coachRepository.save(coachToBeSaved);
-            // return created status code and updated coach
+            // return created status code and created coach
             ctx.status = 201;
             ctx.body = coach;
         }
