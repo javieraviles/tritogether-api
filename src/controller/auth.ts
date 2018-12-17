@@ -50,15 +50,19 @@ export default class AuthController {
             return;
         }
 
+        const rol = ctx.request.body.isCoach ? 'coach' : 'athlete';
+
         const token = jwt.sign({
             id: user.id,
             name: user.name,
             email: user.email,
-            rol:  ctx.request.body.isCoach ? 'coach' : 'athlete'
+            rol:  rol
         }, config.jwtSecret, { expiresIn: config.jwtExpiration });
 
         ctx.status = 200;
-        ctx.body = { access_token: token };
+        delete user.password;
+        user.rol = rol;
+        ctx.body = { user : user, access_token : token };
     }
 
 }
