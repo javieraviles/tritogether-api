@@ -68,9 +68,7 @@ export default class CoachController {
                 where: { coach: coachId },
                 order: {
                     name: ctx.query.order === 'ASC' ? 'ASC' : 'DESC'
-                },
-                skip: +ctx.query.skip || 0,
-                take: +ctx.query.take || 10
+                }
             });
             // return loaded collection of athletes
             ctx.status = 200;

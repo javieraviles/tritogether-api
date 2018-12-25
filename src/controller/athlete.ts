@@ -41,7 +41,7 @@ export default class AthleteController {
             ctx.body = 'The athlete you are trying to retrieve doesn\'t exist in the db';
         } else if ( ((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
                 || ((!athlete.coach) && (ctx.state.user.rol === 'coach'))
-                || ((+ctx.state.user.id !== athlete.coach.id) && (ctx.state.user.rol === 'coach'))
+                || (athlete.coach && (+ctx.state.user.id !== athlete.coach.id) && (ctx.state.user.rol === 'coach'))
         ) {
             // check if the token of the user performing the request is not either the athlete or the current athlete's coach
             // return a FORBIDDEN status code and error message
