@@ -121,6 +121,12 @@ export default class CoachController {
         coachToBeUpdated.email = ctx.request.body.email;
         coachToBeUpdated.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
 
+        // get coach from db with password
+        const coach = await coachRepository.createQueryBuilder('coach')
+            .addSelect('coach.password')
+            .where('coach.id = :id', { id: coachToBeUpdated.id })
+            .getOne();
+
         // validate coach entity
         const errors: ValidationError[] = await validate(coachToBeUpdated); // errors is an array of validation errors
 
@@ -142,6 +148,10 @@ export default class CoachController {
             // return bad request status code and email already exists error
             ctx.status = 400;
             ctx.body = 'The specified e-mail address already exists';
+        } else if ( !await bcryptjs.compare(ctx.request.body.password, coach.password) ) {
+            // password must remain the same
+            ctx.status = 400;
+            ctx.body = 'Incorrect password';
         } else {
             // save the coach contained in the PUT body
             const coach: Coach = await coachRepository.save(coachToBeUpdated);

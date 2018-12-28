@@ -119,6 +119,12 @@ export default class AthleteController {
             athleteToBeUpdated.coach = null;
         }
 
+        // get athlete from db with password
+        const athlete = await athleteRepository.createQueryBuilder('athlete')
+            .addSelect('athlete.password')
+            .where('athlete.id = :id', { id: athleteToBeUpdated.id })
+            .getOne();
+
         // validate athlete entity
         const errors: ValidationError[] = await validate(athleteToBeUpdated); // errors is an array of validation errors
 
@@ -131,7 +137,7 @@ export default class AthleteController {
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'An athlete can only be updated by its own user';
-        } else if ( !await athleteRepository.findOne(athleteToBeUpdated.id) ) {
+        } else if ( !athlete ) {
             // check if an athlete with the specified id exists
             // if not, return a BAD REQUEST status code and error message
             ctx.status = 400;
@@ -140,6 +146,10 @@ export default class AthleteController {
             // return bad request status code and email already exists error
             ctx.status = 400;
             ctx.body = 'The specified e-mail address already exists';
+        } else if ( !await bcryptjs.compare(ctx.request.body.password, athlete.password) ) {
+            // password must remain the same
+            ctx.status = 400;
+            ctx.body = 'Incorrect password';
         } else {
             // save the athlete contained in the PUT body
             const athlete: Athlete = await athleteRepository.save(athleteToBeUpdated);
