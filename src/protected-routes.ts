@@ -14,6 +14,7 @@ protectedRouter.delete('/coaches/:id', controller.coach.deleteCoach);
 protectedRouter.get('/athletes', controller.athlete.getAthletes);
 protectedRouter.get('/athletes/:id', controller.athlete.getAthlete);
 protectedRouter.put('/athletes/:id', controller.athlete.updateAthlete);
+protectedRouter.put('/athletes/:id/coach', controller.athlete.updateAthleteCoach);
 protectedRouter.delete('/athletes/:id', controller.athlete.deleteAthlete);
 
 // ACTIVITY ROUTES

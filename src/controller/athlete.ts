@@ -5,6 +5,8 @@ import { validate, ValidationError } from 'class-validator';
 import { config } from '../config';
 import { Athlete } from '../entity/athlete';
 import { Coach } from '../entity/coach';
+import { Notification } from '../entity/notification';
+import { NotificationStatus } from '../entity/notificationStatus';
 
 export default class AthleteController {
 
@@ -156,6 +158,65 @@ export default class AthleteController {
             // return created status code and updated athlete
             ctx.status = 201;
             ctx.body = athlete;
+        }
+
+    }
+
+    public static async updateAthleteCoach(ctx: BaseContext) {
+
+        // get an athlete repository to perform operations with athlete
+        const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
+
+        // get a coach repository to perform operations with coach
+        const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
+
+        // get a notification repository to perform operations with notification
+        const notificationRepository: Repository<Notification> = getManager().getRepository(Notification);
+
+        // if valid coach specified, find it.
+        const coach: Coach = await coachRepository.findOne(+ctx.request.body.id || 0);
+
+        // get athlete from db with coach included to double check
+        // the athlete doesn't have a coach already
+        const athlete = await athleteRepository.createQueryBuilder('athlete')
+            .leftJoinAndSelect('athlete.coach', 'coach')
+            .where('athlete.id = :id', { id: +ctx.params.id || 0 })
+            .getOne();
+
+        // check if there is a PENDING coaching notification between this coach and this athlete
+        const notification: Notification = await notificationRepository.findOne({
+            relations: ['athlete', 'coach'],
+            where: { athlete: +ctx.params.id || 0, coach: +ctx.request.body.id || 0, status: NotificationStatus.PENDING }
+        });
+
+        if (!athlete || !coach) {
+            // check if an athlete and a coach with the specified ids exist
+            // if not, return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.body = 'The athlete/coach you are trying to update doesn\'t exist in the db';
+        } else if (+ctx.state.user.id !== coach.id) {
+            // check if there was a PENDING coaching notification between specified athlete and coach
+            // return a FORBIDDEN status code and error message
+            ctx.status = 403;
+            ctx.body = 'The new athlete\'s coach must be the one performing the request';
+        } else if (!notification) {
+            // check if there was a PENDING coaching notification between specified athlete and coach
+            // return a FORBIDDEN status code and error message
+            ctx.status = 403;
+            ctx.body = 'There is no PENDING coaching notification between specified athlete and coach';
+        } else if (athlete.coach) {
+            // check if there was a coach assigned already
+            // return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.body = 'There is already a coach assigned to the athlete';
+        } else {
+            // update the coach
+            athlete.coach = coach;
+            // save the athlete
+            const savedAthlete: Athlete = await athleteRepository.save(athlete);
+            // return created status code and updated athlete
+            ctx.status = 201;
+            ctx.body = savedAthlete;
         }
 
     }
