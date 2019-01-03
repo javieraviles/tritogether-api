@@ -8,7 +8,7 @@ import { Coach } from '../entity/coach';
 
 export default class AuthController {
 
-    public static async signIn (ctx: BaseContext) {
+    public static async signIn(ctx: BaseContext) {
 
         if (!ctx.request.body.email || !ctx.request.body.password) {
             ctx.status = 400;
@@ -27,15 +27,15 @@ export default class AuthController {
         if (Boolean(ctx.request.body.isCoach)) {
             // load coach by email, query users queryBuilder to addSelect(password), otherwise hidden
             user = await coachRepository.createQueryBuilder('coach')
-            .addSelect('coach.password')
-            .where('coach.email = :email', { email: ctx.request.body.email })
-            .getOne();
+                .addSelect('coach.password')
+                .where('coach.email = :email', { email: ctx.request.body.email })
+                .getOne();
         } else {
             // load athlete by email, query users queryBuilder to addSelect(password), otherwise hidden
             user = await athleteRepository.createQueryBuilder('athlete')
-            .addSelect('athlete.password')
-            .where('athlete.email = :email', { email: ctx.request.body.email })
-            .getOne();
+                .addSelect('athlete.password')
+                .where('athlete.email = :email', { email: ctx.request.body.email })
+                .getOne();
         }
 
         if (!user) {
@@ -56,13 +56,13 @@ export default class AuthController {
             id: user.id,
             name: user.name,
             email: user.email,
-            rol:  rol
+            rol: rol
         }, config.jwtSecret, { expiresIn: config.jwtExpiration });
 
         ctx.status = 200;
         delete user.password;
         user.rol = rol;
-        ctx.body = { user : user, access_token : token };
+        ctx.body = { user: user, access_token: token };
     }
 
 }

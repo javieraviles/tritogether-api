@@ -24,4 +24,10 @@ protectedRouter.post('/athletes/:id/activities', controller.activity.createActiv
 protectedRouter.put('/athletes/:athleteId/activities/:activityId', controller.activity.updateActivity);
 protectedRouter.delete('/athletes/:athleteId/activities/:activityId', controller.activity.deleteActivity);
 
+// NOTIFICATION ROUTES
+protectedRouter.get('/athletes/:id/notifications', controller.notification.getAthleteNotifications);
+protectedRouter.get('/coaches/:id/notifications', controller.notification.getCoachNotifications);
+protectedRouter.post('/athletes/:id/notifications', controller.notification.createNotification);
+protectedRouter.put('/athletes/:athleteId/notifications/:notificationId', controller.notification.updateNotification);
+
 export { protectedRouter };

@@ -8,7 +8,7 @@ import { Athlete } from '../entity/athlete';
 
 export default class CoachController {
 
-    public static async getCoaches (ctx: BaseContext) {
+    public static async getCoaches(ctx: BaseContext) {
 
         // get a coach repository to perform operations with coach
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
@@ -21,7 +21,7 @@ export default class CoachController {
         ctx.body = coaches;
     }
 
-    public static async getCoach (ctx: BaseContext) {
+    public static async getCoach(ctx: BaseContext) {
 
         // get a coach repository to perform operations with coach
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
@@ -41,13 +41,13 @@ export default class CoachController {
 
     }
 
-    public static async getCoachAthletes (ctx: BaseContext) {
+    public static async getCoachAthletes(ctx: BaseContext) {
 
         // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
-         // get a coach repository to perform operations with coach
-         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
+        // get a coach repository to perform operations with coach
+        const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
         // does specified coach exist?
         const coachId = +ctx.params.id || 0;
@@ -77,7 +77,7 @@ export default class CoachController {
 
     }
 
-    public static async createCoach (ctx: BaseContext) {
+    public static async createCoach(ctx: BaseContext) {
 
         // get a coach repository to perform operations with coach
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
@@ -95,7 +95,7 @@ export default class CoachController {
             // return bad request status code and errors array
             ctx.status = 400;
             ctx.body = errors;
-        } else if ( await coachRepository.findOne({ email: coachToBeSaved.email}) ) {
+        } else if (await coachRepository.findOne({ email: coachToBeSaved.email })) {
             // return bad request status code and email already exists error
             ctx.status = 400;
             ctx.body = 'The specified e-mail address already exists';
@@ -108,7 +108,7 @@ export default class CoachController {
         }
     }
 
-    public static async updateCoach (ctx: BaseContext) {
+    public static async updateCoach(ctx: BaseContext) {
 
         // get a coach repository to perform operations with coach
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
@@ -134,21 +134,21 @@ export default class CoachController {
             // return bad request status code and errors array
             ctx.status = 400;
             ctx.body = errors;
-        } else if ( (+ctx.state.user.id !== coachToBeUpdated.id) || (ctx.state.user.rol !== 'coach') ) {
+        } else if ((+ctx.state.user.id !== coachToBeUpdated.id) || (ctx.state.user.rol !== 'coach')) {
             // check token is from a coach and its id and coach id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'A coach can only be updated by its own user';
-        } else if ( !await coachRepository.findOne(coachToBeUpdated.id) ) {
+        } else if (!await coachRepository.findOne(coachToBeUpdated.id)) {
             // check if a coach with the specified id exists
             // return BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The coach you are trying to update doesn\'t exist in the db';
-        } else if ( await coachRepository.findOne({ id: Not(Equal(coachToBeUpdated.id)) , email: coachToBeUpdated.email}) ) {
+        } else if (await coachRepository.findOne({ id: Not(Equal(coachToBeUpdated.id)), email: coachToBeUpdated.email })) {
             // return bad request status code and email already exists error
             ctx.status = 400;
             ctx.body = 'The specified e-mail address already exists';
-        } else if ( !await bcryptjs.compare(ctx.request.body.password, coach.password) ) {
+        } else if (!await bcryptjs.compare(ctx.request.body.password, coach.password)) {
             // password must remain the same
             ctx.status = 400;
             ctx.body = 'Incorrect password';
@@ -162,7 +162,7 @@ export default class CoachController {
 
     }
 
-    public static async deleteCoach (ctx: BaseContext) {
+    public static async deleteCoach(ctx: BaseContext) {
 
         // get a coach repository to perform operations with coach
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
@@ -176,7 +176,7 @@ export default class CoachController {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'The coach you are trying to delete doesn\'t exist in the db';
-        } else if ( (+ctx.state.user.id !== coachToRemove.id) || (ctx.state.user.rol !== 'coach')  ) {
+        } else if ((+ctx.state.user.id !== coachToRemove.id) || (ctx.state.user.rol !== 'coach')) {
             // check token is from a coach and its id and coach id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
@@ -190,4 +190,4 @@ export default class CoachController {
 
     }
 
-  }
+}
