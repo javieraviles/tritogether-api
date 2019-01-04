@@ -17,7 +17,7 @@
     "node": "8.x.x",
     "npm": "5.x.x"
   },
-  "repository": "github:javieraviles/node-typescript-koa-rest",
+  "repository": "github:javieraviles/tritogether-api",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",
     "@types/dotenv": "^4.0.3",
