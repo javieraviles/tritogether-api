@@ -36,7 +36,7 @@ createConnection({
     synchronize: true,
     logging: false,
     entities: [
-        'src/entity/**/*.ts'
+        'dist/entity/**/*.js'
     ],
     extra: {
         ssl: config.dbsslconn, // if not development, will use SSL
