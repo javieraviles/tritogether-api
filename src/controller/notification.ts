@@ -142,7 +142,7 @@ export default class NotificationController {
         // validate if status is contained in ENUM
         const notificationToBeUpdated: Notification = new Notification();
         notificationToBeUpdated.id = +ctx.params.notificationId || 0;
-        notificationToBeUpdated.status = ctx.request.body.status in NotificationStatus ? ctx.request.body.status : null;
+        notificationToBeUpdated.status = ctx.request.body.status in NotificationStatus ? ctx.request.body.status : '';
         notificationToBeUpdated.athlete = notification ? notification.athlete : null;
         notificationToBeUpdated.coach = notification ? notification.coach : null;
 

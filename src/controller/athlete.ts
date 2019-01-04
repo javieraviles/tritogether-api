@@ -174,7 +174,8 @@ export default class AthleteController {
         const notificationRepository: Repository<Notification> = getManager().getRepository(Notification);
 
         // if valid coach specified, find it.
-        const coach: Coach = await coachRepository.findOne(+ctx.request.body.id || 0);
+        // If no coach specified, current coach wants to remove himself
+        const coach: Coach = await coachRepository.findOne(+ctx.request.body.id || +ctx.state.user.id);
 
         // get athlete from db with coach included to double check
         // the athlete doesn't have a coach already
@@ -199,19 +200,24 @@ export default class AthleteController {
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'The new athlete\'s coach must be the one performing the request';
-        } else if (!notification) {
+        } else if (!notification && ctx.request.body.id) {
             // check if there was a PENDING coaching notification between specified athlete and coach
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'There is no PENDING coaching notification between specified athlete and coach';
-        } else if (athlete.coach) {
+        } else if (athlete.coach && ctx.request.body.id) {
             // check if there was a coach assigned already
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'There is already a coach assigned to the athlete';
+            ctx.body = 'There is a coach assigned to the athlete already';
+        } else if (!ctx.request.body.id && (!athlete.coach || (athlete.coach.id !== coach.id))) {
+            // only current coach can remove himself
+            // return a FORBIDDEN status code and error message
+            ctx.status = 403;
+            ctx.body = 'Only current athlete\'s coach can remove itself';
         } else {
-            // update the coach
-            athlete.coach = coach;
+            // update the coach or remove it if no coach specified
+            athlete.coach = +ctx.request.body.id ? coach : null;
             // save the athlete
             const savedAthlete: Athlete = await athleteRepository.save(athlete);
             // return created status code and updated athlete
