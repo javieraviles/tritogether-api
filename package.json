@@ -1,7 +1,7 @@
 {
-  "name": "api-tri-together",
+  "name": "tritogether-api",
   "version": "0.0.1",
-  "description": "API REST TriTogether",
+  "description": "API REST for TriTogether project",
   "main": "dist/server.js",
   "scripts": {
     "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node src/server.ts",
