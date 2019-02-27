@@ -39,55 +39,13 @@ export default class ActivityController {
             // load activities for the specified athlete
             const activities: Activity[] = await activityRepository.find({
                 relations: ['discipline'],
-                where: { athlete: +ctx.params.id || 0 },
-                order: {
-                    date: ctx.query.order === 'ASC' ? 'ASC' : 'DESC'
-                },
+                where: { athlete: +ctx.params.id || 0, date: ctx.query.date },
                 skip: +ctx.query.skip || 0,
                 take: +ctx.query.take || 10
             });
             // return loaded collection of activities
             ctx.status = 200;
             ctx.body = activities;
-        }
-    }
-
-    public static async getCountAthleteActivities(ctx: BaseContext) {
-
-        // get an activity repository to perform operations with activity
-        const activityRepository: Repository<Activity> = getManager().getRepository(Activity);
-
-        // get an athlete repository to perform operations with athlete
-        const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
-
-        // load athlete by id with coach entity included
-        // the athlete could not have a coach assigned at this moments so can't assume athlete.coach.id will exist
-        // can't assume either that the athlete will exist
-        let coachId: number = null;
-        let athlete: Athlete = new Athlete();
-        if (athlete = await athleteRepository.findOne(+ctx.params.id || 0, { relations: ['coach'] })) {
-            coachId = athlete.coach ? athlete.coach.id : null;
-        }
-
-        if (!athlete) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
-            ctx.body = 'The athlete you are trying to retrieve count of activities from doesn\'t exist in the db';
-        } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
-            || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === 'coach'))
-        ) {
-            // check if the token of the user performing the request is not either the athlete or the current athlete's coach
-            // return a FORBIDDEN status code and error message
-            ctx.status = 403;
-            ctx.body = 'Count of activities can only be retrieved by the owner athlete or its current coach';
-        } else {
-            // Counts activities for the specified athlete
-            const count: Number = await activityRepository.count({
-                where: { athlete: +ctx.params.id || 0 }
-            });
-            // return count of activities for specified athlete
-            ctx.status = 200;
-            ctx.body = count;
         }
     }
 

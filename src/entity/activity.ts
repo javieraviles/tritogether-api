@@ -14,7 +14,9 @@ export class Activity {
     @Length(10, 255)
     description: string;
 
-    @Column()
+    @Column({
+        type: 'date'
+    })
     @IsDate()
     date: Date;
 
