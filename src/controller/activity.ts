@@ -1,5 +1,5 @@
 import { BaseContext } from 'koa';
-import { getManager, Repository } from 'typeorm';
+import { getManager, Repository, Raw } from 'typeorm';
 import { validate, ValidationError } from 'class-validator';
 import { Activity } from '../entity/activity';
 import { Discipline } from '../entity/discipline';
@@ -39,9 +39,11 @@ export default class ActivityController {
             // load activities for the specified athlete
             const activities: Activity[] = await activityRepository.find({
                 relations: ['discipline'],
-                where: { athlete: +ctx.params.id || 0, date: ctx.query.date },
-                skip: +ctx.query.skip || 0,
-                take: +ctx.query.take || 10
+                where: { athlete: +ctx.params.id || 0, date: Raw(alias => `date_part('month',"Activity".date) = ${ctx.query.month}`) },
+                order: {
+                    date: 'ASC',
+                    discipline: 'ASC'
+                }
             });
             // return loaded collection of activities
             ctx.status = 200;
