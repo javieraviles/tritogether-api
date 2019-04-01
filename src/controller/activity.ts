@@ -27,14 +27,14 @@ export default class ActivityController {
         if (!athlete) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete you are trying to retrieve activities from doesn\'t exist in the db';
+            ctx.message = 'The athlete you are trying to retrieve activities from doesn\'t exist in the db';
         } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
             || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === 'coach'))
         ) {
             // check if the token of the user performing the request is not either the athlete or the current athlete's coach
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'A collection of activities can only be retrieved by the owner athlete or its current coach';
+            ctx.message = 'A collection of activities can only be retrieved by the owner athlete or its current coach';
         } else {
             // load activities for the specified athlete
             const activities: Activity[] = await activityRepository.find({
@@ -74,15 +74,15 @@ export default class ActivityController {
         if (!activity) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The activity you are trying to retrieve doesn\'t exist in the db';
+            ctx.message = 'The activity you are trying to retrieve doesn\'t exist in the db';
         } else if (!athlete) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete you are trying to retrieve the activity from doesn\'t exist in the db';
+            ctx.message = 'The athlete you are trying to retrieve the activity from doesn\'t exist in the db';
         } else if (athlete.id !== activity.athlete.id) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The specified athlete is not the owner of the activity';
+            ctx.message = 'The specified athlete is not the owner of the activity';
         } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
             || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === 'coach'))
         ) {
@@ -90,7 +90,7 @@ export default class ActivityController {
             // or the current athlete's coach related to the activity
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'An activity can only be retrieved by the owner athlete or its current coach';
+            ctx.message = 'An activity can only be retrieved by the owner athlete or its current coach';
         } else {
             // return loaded activity
             ctx.status = 200;
@@ -135,16 +135,16 @@ export default class ActivityController {
         if (!athlete) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete you are trying to create activities for doesn\'t exist in the db';
+            ctx.message = 'The athlete you are trying to create activities for doesn\'t exist in the db';
         } else if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.body = errors;
+            ctx.message = errors.toString();
         } else if (+ctx.state.user.id !== (coachId) || (ctx.state.user.rol !== 'coach')) {
             // check token is from a coach and its id and athlete's coach id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'An activity can only be created by the coach of the specified athlete';
+            ctx.message = 'An activity can only be created by the coach of the specified athlete';
         } else {
             // save the activity contained in the POST body
             const activity: Activity = await activityRepository.save(activityToBeSaved);
@@ -186,21 +186,21 @@ export default class ActivityController {
             // check if an activity with the specified activityId exists
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The activity you are trying to update doesn\'t exist in the db';
+            ctx.message = 'The activity you are trying to update doesn\'t exist in the db';
         } else if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.body = errors;
+            ctx.message = errors.toString();
         } else if ((+ctx.params.athleteId || 0) != activity.athlete.id) {
             // check if the athlete didn't change for the activity
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The specified athlete and the owner athlete of the activity are not the same';
+            ctx.message = 'The specified athlete and the owner athlete of the activity are not the same';
         } else if ((!activity.athlete.coach) || +ctx.state.user.id !== (activity.athlete.coach.id) || (ctx.state.user.rol !== 'coach')) {
             // check token is from a coach and its id and athlete's coach id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'An activity can only be updated by the coach of the owner athlete';
+            ctx.message = 'An activity can only be updated by the coach of the owner athlete';
         } else {
             // update the activity contained in the PUT body
             const activity: Activity = await activityRepository.save(activityToBeUpdated);
@@ -221,16 +221,16 @@ export default class ActivityController {
         if (!activityToRemove) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The activity you are trying to delete doesn\'t exist in the db';
+            ctx.message = 'The activity you are trying to delete doesn\'t exist in the db';
         } else if ((+ctx.params.athleteId || 0) != activityToRemove.athlete.id) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete you are specifying and the owner of the activity are not the same';
+            ctx.message = 'The athlete you are specifying and the owner of the activity are not the same';
         } else if ((!activityToRemove.athlete.coach) || (+ctx.state.user.id !== activityToRemove.athlete.coach.id) || (ctx.state.user.rol !== 'coach')) {
             // check token is from a coach and its id and coach athlete id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'An activity can only be deleted by the coach of the owner athlete';
+            ctx.message = 'An activity can only be deleted by the coach of the owner athlete';
         } else {
             // the athlete is there so can be removed
             await activityRepository.remove(activityToRemove);

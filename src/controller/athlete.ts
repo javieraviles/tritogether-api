@@ -40,7 +40,7 @@ export default class AthleteController {
         if (!athlete) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete you are trying to retrieve doesn\'t exist in the db';
+            ctx.message = 'The athlete you are trying to retrieve doesn\'t exist in the db';
         } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === 'athlete'))
             || ((!athlete.coach) && (ctx.state.user.rol === 'coach'))
             || (athlete.coach && (+ctx.state.user.id !== athlete.coach.id) && (ctx.state.user.rol === 'coach'))
@@ -48,7 +48,7 @@ export default class AthleteController {
             // check if the token of the user performing the request is not either the athlete or the current athlete's coach
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'Athlete information can only be retrieved by the owner athlete or its current coach';
+            ctx.message = 'Athlete information can only be retrieved by the owner athlete or its current coach';
         } else {
             // return loaded athlete
             ctx.status = 200;
@@ -83,11 +83,15 @@ export default class AthleteController {
         if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.body = errors;
+            ctx.message = errors.toString();
+        } else if (ctx.request.body.password.length < 8) {
+            // return bad request status code if password is shorter than 8 characters
+            ctx.status = 400;
+            ctx.message = 'The specified password must be at least 8 characters long';
         } else if (await athleteRepository.findOne({ email: athleteToBeSaved.email })) {
             // return bad request status code and email already exists error
             ctx.status = 400;
-            ctx.body = 'The specified e-mail address already exists';
+            ctx.message = 'The specified e-mail address already exists';
         } else {
             // save the athlete contained in the POST body
             const athlete: Athlete = await athleteRepository.save(athleteToBeSaved);
@@ -133,25 +137,25 @@ export default class AthleteController {
         if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.body = errors;
+            ctx.message = errors.toString();
         } else if ((+ctx.state.user.id !== athleteToBeUpdated.id) || (ctx.state.user.rol !== 'athlete')) {
             // check token is from an athlete and its id and athlete id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'An athlete can only be updated by its own user';
+            ctx.message = 'An athlete can only be updated by its own user';
         } else if (!athlete) {
             // check if an athlete with the specified id exists
             // if not, return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete you are trying to update doesn\'t exist in the db';
+            ctx.message = 'The athlete you are trying to update doesn\'t exist in the db';
         } else if (await athleteRepository.findOne({ id: Not(Equal(athleteToBeUpdated.id)), email: athleteToBeUpdated.email })) {
             // return bad request status code and email already exists error
             ctx.status = 400;
-            ctx.body = 'The specified e-mail address already exists';
+            ctx.message = 'The specified e-mail address already exists';
         } else if (!await bcryptjs.compare(ctx.request.body.password, athlete.password)) {
             // password must remain the same
             ctx.status = 400;
-            ctx.body = 'Incorrect password';
+            ctx.message = 'Incorrect password';
         } else {
             // save the athlete contained in the PUT body
             const athlete: Athlete = await athleteRepository.save(athleteToBeUpdated);
@@ -197,34 +201,34 @@ export default class AthleteController {
             // check if an athlete and a coach with the specified ids exist
             // if not, return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete/coach you are trying to update doesn\'t exist in the db';
+            ctx.message = 'The athlete/coach you are trying to update doesn\'t exist in the db';
         } else if (+ctx.state.user.id !== coach.id) {
             // check if the request is being performed by the new athlete's coach if new coach
             // or by the old coach in case the coach is being removed
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'Athlete\'s coach must be the one performing the request';
+            ctx.message = 'Athlete\'s coach must be the one performing the request';
         } else if (!notification && ctx.request.body.id) {
             // when setting a new coach
             // check if there was a PENDING coaching notification between specified athlete and coach
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'There is no PENDING coaching notification between specified athlete and coach';
+            ctx.message = 'There is no PENDING coaching notification between specified athlete and coach';
         } else if (athlete.coach && ctx.request.body.id) {
             // when setting a new coach
             // check if there is a coach assigned already
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'There is a coach assigned to the athlete already';
+            ctx.message = 'There is a coach assigned to the athlete already';
         } else if (!ctx.request.body.id && (!athlete.coach || (athlete.coach.id !== coach.id))) {
             // only current coach can remove himself
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'Only current athlete\'s coach can remove himself';
+            ctx.message = 'Only current athlete\'s coach can remove himself';
         } else if (!ctx.request.body.id && (!ctx.request.body.password || !await bcryptjs.compare(ctx.request.body.password, coach.password))) {
             // coach must inform his password correctly
             ctx.status = 400;
-            ctx.body = 'Incorrect password';
+            ctx.message = 'Incorrect password';
         } else {
             // update the coach or remove it if no coach specified
             athlete.coach = +ctx.request.body.id ? coach : null;
@@ -247,12 +251,12 @@ export default class AthleteController {
         if (!athleteToRemove) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.body = 'The athlete you are trying to delete doesn\'t exist in the db';
+            ctx.message = 'The athlete you are trying to delete doesn\'t exist in the db';
         } else if ((+ctx.state.user.id !== athleteToRemove.id) || (ctx.state.user.rol !== 'athlete')) {
             // check token is from an athlete and its id and athlete id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'An athlete can only be deleted by its own user';
+            ctx.message = 'An athlete can only be deleted by its own user';
         } else {
             // the athlete is there so can be removed
             await athleteRepository.remove(athleteToRemove);

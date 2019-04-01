@@ -12,7 +12,7 @@ export default class AuthController {
 
         if (!ctx.request.body.email || !ctx.request.body.password) {
             ctx.status = 400;
-            ctx.body = 'Both email and password must be specified';
+            ctx.message = 'Both email and password must be specified';
             return;
         }
 
@@ -40,13 +40,13 @@ export default class AuthController {
 
         if (!user) {
             ctx.status = 401;
-            ctx.body = 'User not found';
+            ctx.message = 'User not found';
             return;
         }
 
         if (!await bcryptjs.compare(ctx.request.body.password, user.password)) {
             ctx.status = 401;
-            ctx.body = 'Incorrect password';
+            ctx.message = 'Incorrect password';
             return;
         }
 
