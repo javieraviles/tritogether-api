@@ -122,7 +122,7 @@ export default class AthleteController {
         }
 
         // get athlete from db with password
-        const athlete = await athleteRepository.createQueryBuilder('athlete')
+        const athlete: Athlete = await athleteRepository.createQueryBuilder('athlete')
             .addSelect('athlete.password')
             .where('athlete.id = :id', { id: athleteToBeUpdated.id })
             .getOne();
@@ -175,7 +175,10 @@ export default class AthleteController {
 
         // if valid coach specified, find it.
         // If no coach specified, current coach wants to remove himself
-        const coach: Coach = await coachRepository.findOne(+ctx.request.body.id || +ctx.state.user.id);
+        const coach: Coach = await coachRepository.createQueryBuilder('coach')
+            .addSelect('coach.password')
+            .where('coach.id = :id', { id: +ctx.request.body.id || +ctx.state.user.id })
+            .getOne();
 
         // get athlete from db with coach included to double check
         // the athlete doesn't have a coach already
@@ -196,17 +199,20 @@ export default class AthleteController {
             ctx.status = 400;
             ctx.body = 'The athlete/coach you are trying to update doesn\'t exist in the db';
         } else if (+ctx.state.user.id !== coach.id) {
-            // check if there was a PENDING coaching notification between specified athlete and coach
+            // check if the request is being performed by the new athlete's coach if new coach
+            // or by the old coach in case the coach is being removed
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'The new athlete\'s coach must be the one performing the request';
+            ctx.body = 'Athlete\'s coach must be the one performing the request';
         } else if (!notification && ctx.request.body.id) {
+            // when setting a new coach
             // check if there was a PENDING coaching notification between specified athlete and coach
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.body = 'There is no PENDING coaching notification between specified athlete and coach';
         } else if (athlete.coach && ctx.request.body.id) {
-            // check if there was a coach assigned already
+            // when setting a new coach
+            // check if there is a coach assigned already
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.body = 'There is a coach assigned to the athlete already';
@@ -214,7 +220,11 @@ export default class AthleteController {
             // only current coach can remove himself
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.body = 'Only current athlete\'s coach can remove itself';
+            ctx.body = 'Only current athlete\'s coach can remove himself';
+        } else if (!ctx.request.body.id && (!ctx.request.body.password || !await bcryptjs.compare(ctx.request.body.password, coach.password))) {
+            // coach must inform his password correctly
+            ctx.status = 400;
+            ctx.body = 'Incorrect password';
         } else {
             // update the coach or remove it if no coach specified
             athlete.coach = +ctx.request.body.id ? coach : null;
