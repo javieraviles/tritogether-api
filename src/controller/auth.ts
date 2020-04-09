@@ -1,18 +1,29 @@
-import * as jwt from 'jsonwebtoken';
-import * as bcryptjs from 'bcryptjs';
-import { BaseContext } from 'koa';
-import { config } from '../config';
-import { getManager, Repository } from 'typeorm';
-import { Athlete } from '../entity/athlete';
-import { Coach } from '../entity/coach';
+import * as jwt from "jsonwebtoken";
+import * as bcryptjs from "bcryptjs";
+import { BaseContext } from "koa";
+import { config } from "../config";
+import { getManager, Repository } from "typeorm";
+import { request, summary, body, responsesAll, tagsAll } from "koa-swagger-decorator";
+import { Athlete } from "../entity/athlete";
+import { Coach } from "../entity/coach";
 
+const authSchema = {
+    email: { type: "string", required: true, example: "avileslopez.javier@gmail.com" },
+    password: { type: "string", required: true, example: "_TriTogether2020_" }
+};
+
+@responsesAll({ 200: { description: "success", }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })
+@tagsAll(["Auth"])
 export default class AuthController {
 
-    public static async signIn (ctx: BaseContext) {
+    @request("post", "/signin")
+    @summary("Get a JWT token")
+    @body(authSchema)
+    public static async signIn(ctx: BaseContext) {
 
         if (!ctx.request.body.email || !ctx.request.body.password) {
             ctx.status = 400;
-            ctx.body = 'Both email and password must be specified';
+            ctx.message = "Both email and password must be specified";
             return;
         }
 
@@ -25,40 +36,45 @@ export default class AuthController {
         let user: any;
 
         if (Boolean(ctx.request.body.isCoach)) {
-            // load coach by email, query uses queryBuilder to addSelect(password), otherwise hidden
-            user = await coachRepository.createQueryBuilder('coach')
-            .addSelect('coach.password')
-            .where('coach.email = :email', { email: ctx.request.body.email })
-            .getOne();
+            // load coach by email, query users queryBuilder to addSelect(password), otherwise hidden
+            user = await coachRepository.createQueryBuilder("coach")
+                .addSelect("coach.password")
+                .where("coach.email = :email", { email: ctx.request.body.email })
+                .getOne();
         } else {
-            // load athlete by email, query uses queryBuilder to addSelect(password), otherwise hidden
-            user = await athleteRepository.createQueryBuilder('athlete')
-            .addSelect('athlete.password')
-            .where('athlete.email = :email', { email: ctx.request.body.email })
-            .getOne();
+            // load athlete by email, query users queryBuilder to addSelect(password), otherwise hidden
+            user = await athleteRepository.createQueryBuilder("athlete")
+                .addSelect("athlete.password")
+                .where("athlete.email = :email", { email: ctx.request.body.email })
+                .getOne();
         }
 
         if (!user) {
             ctx.status = 401;
-            ctx.body = 'User not found';
+            ctx.message = "User not found";
             return;
         }
 
         if (!await bcryptjs.compare(ctx.request.body.password, user.password)) {
             ctx.status = 401;
-            ctx.body = 'Incorrect password';
+            ctx.message = "Incorrect password";
             return;
         }
+
+        const rol = ctx.request.body.isCoach ? "coach" : "athlete";
 
         const token = jwt.sign({
             id: user.id,
             name: user.name,
             email: user.email,
-            rol:  ctx.request.body.isCoach ? 'coach' : 'athlete'
+            rol: rol
         }, config.jwtSecret, { expiresIn: config.jwtExpiration });
 
         ctx.status = 200;
-        ctx.body = { access_token: token };
+        delete user.password;
+        user.rol = rol;
+        /* eslint-disable @typescript-eslint/camelcase */
+        ctx.body = { user: user, access_token: token };
     }
 
 }
