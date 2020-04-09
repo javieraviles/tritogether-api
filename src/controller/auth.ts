@@ -9,7 +9,8 @@ import { Coach } from "../entity/coach";
 
 const authSchema = {
     email: { type: "string", required: true, example: "avileslopez.javier@gmail.com" },
-    password: { type: "string", required: true, example: "_TriTogether2020_" }
+    password: { type: "string", required: true, example: "_TriTogether2020_" },
+    isCoach: { type: "boolean", required: true, example: true }
 };
 
 @responsesAll({ 200: { description: "success", }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })

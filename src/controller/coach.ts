@@ -44,8 +44,8 @@ export default class CoachController {
             ctx.status = 200;
             ctx.body = coach;
         } else {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The coach you are trying to retrieve doesn't exist in the db";
         }
 
@@ -104,15 +104,18 @@ export default class CoachController {
         const coachToBeSaved: Coach = new Coach();
         coachToBeSaved.name = ctx.request.body.name;
         coachToBeSaved.email = ctx.request.body.email;
-        coachToBeSaved.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
+        // cannot assume password is present at this point
+        if (ctx.request.body.password){
+            coachToBeSaved.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
+        }
 
         // validate coach entity
-        const errors: ValidationError[] = await validate(coachToBeSaved); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(coachToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.message = errors.toString();
+            ctx.body = errors;
         } else if (ctx.request.body.password.length < 8) {
             // return bad request status code if password is shorter than 8 characters
             ctx.status = 400;
@@ -161,7 +164,7 @@ export default class CoachController {
         if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.message = errors.toString();
+            ctx.body = errors;
         } else if ((+ctx.state.user.id !== coachToBeUpdated.id) || (ctx.state.user.rol !== "coach")) {
             // check token is from a coach and its id and coach id are the same
             // return a FORBIDDEN status code and error message
@@ -169,11 +172,11 @@ export default class CoachController {
             ctx.message = "A coach can only be updated by its own user";
         } else if (!await coachRepository.findOne(coachToBeUpdated.id)) {
             // check if a coach with the specified id exists
-            // return BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The coach you are trying to update doesn't exist in the db";
         } else if (await coachRepository.findOne({ id: Not(Equal(coachToBeUpdated.id)), email: coachToBeUpdated.email })) {
-            // return bad request status code and email already exists error
+            // return BAD REQUEST status code and email already exist error
             ctx.status = 400;
             ctx.message = "The specified e-mail address already exists";
         } else if (!await bcryptjs.compare(ctx.request.body.password, coach.password)) {
@@ -206,8 +209,8 @@ export default class CoachController {
         const coachToRemove: Coach = await coachRepository.findOne(+ctx.params.id || 0);
 
         if (!coachToRemove) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The coach you are trying to delete doesn't exist in the db";
         } else if ((+ctx.state.user.id !== coachToRemove.id) || (ctx.state.user.rol !== "coach")) {
             // check token is from a coach and its id and coach id are the same
