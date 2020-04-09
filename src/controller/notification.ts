@@ -1,13 +1,21 @@
-import { BaseContext } from 'koa';
-import { getManager, Repository } from 'typeorm';
-import { validate, ValidationError } from 'class-validator';
-import { Notification } from '../entity/notification';
-import { Athlete } from '../entity/athlete';
-import { Coach } from '../entity/coach';
-import { NotificationStatus } from '../entity/notificationStatus';
+import { BaseContext } from "koa";
+import { getManager, Repository } from "typeorm";
+import { validate, ValidationError } from "class-validator";
+import { request, summary, path, body, responsesAll, tagsAll } from "koa-swagger-decorator";
+import { Notification, notificationSchema } from "../entity/notification";
+import { Athlete } from "../entity/athlete";
+import { Coach } from "../entity/coach";
+import { NotificationStatus } from "../entity/notificationStatus";
 
+@responsesAll({ 200: { description: "success", }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })
+@tagsAll(["Notification"])
 export default class NotificationController {
 
+    @request("get", "/athletes/{id}/notifications")
+    @summary("Find notifications for a specific athlete")
+    @path({
+        id: { type: "number", required: true, description: "id of athlete" }
+    })
     public static async getAthleteNotifications(ctx: BaseContext) {
 
         // get a notification repository to perform operations with notification
@@ -22,17 +30,17 @@ export default class NotificationController {
         if (!athlete) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.message = 'The athlete you are trying to retrieve notifications from doesn\'t exist in the db';
-        } else if ((+ctx.state.user.id !== athlete.id) || (ctx.state.user.rol !== 'athlete')
+            ctx.message = "The athlete you are trying to retrieve notifications from doesn't exist in the db";
+        } else if ((+ctx.state.user.id !== athlete.id) || (ctx.state.user.rol !== "athlete")
         ) {
             // check if the token of the user performing the request is not the athlete itself
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.message = 'Notifications can only be retrieved by the owner athlete';
+            ctx.message = "Notifications can only be retrieved by the owner athlete";
         } else {
             // load notifications for the specified athlete
             const notifications: Notification[] = await notificationRepository.find({
-                relations: ['athlete', 'coach'],
+                relations: ["athlete", "coach"],
                 where: { athlete: +ctx.params.id || 0, status: NotificationStatus.PENDING }
             });
             // return loaded collection of notifications
@@ -41,6 +49,11 @@ export default class NotificationController {
         }
     }
 
+    @request("get", "/coaches/{id}/notifications")
+    @summary("Find notifications for a specific coach")
+    @path({
+        id: { type: "number", required: true, description: "id of coach" }
+    })
     public static async getCoachNotifications(ctx: BaseContext) {
 
         // get a notification repository to perform operations with notification
@@ -55,17 +68,17 @@ export default class NotificationController {
         if (!coach) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.message = 'The coach you are trying to retrieve notifications from doesn\'t exist in the db';
-        } else if ((+ctx.state.user.id !== coach.id) || (ctx.state.user.rol !== 'coach')
+            ctx.message = "The coach you are trying to retrieve notifications from doesn't exist in the db";
+        } else if ((+ctx.state.user.id !== coach.id) || (ctx.state.user.rol !== "coach")
         ) {
             // check if the token of the user performing the request is not the coach itself
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.message = 'Notifications can only be retrieved by the owner coach';
+            ctx.message = "Notifications can only be retrieved by the owner coach";
         } else {
             // load notifications for the specified coach
             const notifications: Notification[] = await notificationRepository.find({
-                relations: ['athlete', 'coach'],
+                relations: ["athlete", "coach"],
                 where: { coach: +ctx.params.id || 0, status: NotificationStatus.PENDING }
             });
             // return loaded collection of notifications
@@ -74,6 +87,12 @@ export default class NotificationController {
         }
     }
 
+    @request("post", "/athletes/{id}/notifications")
+    @summary("Create a notification")
+    @path({
+        id: { type: "number", required: true, description: "id of athlete" }
+    })
+    @body(notificationSchema)
     public static async createNotification(ctx: BaseContext) {
 
         // get a notification repository to perform operations with notification
@@ -110,16 +129,16 @@ export default class NotificationController {
         if (!athlete || !coach) {
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.message = 'The athlete/coach you are trying to create notifications for doesn\'t exist in the db';
+            ctx.message = "The athlete/coach you are trying to create notifications for doesn't exist in the db";
         } else if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
             ctx.message = errors.toString();
-        } else if (+ctx.state.user.id !== athleteId || (ctx.state.user.rol !== 'athlete')) {
+        } else if (+ctx.state.user.id !== athleteId || (ctx.state.user.rol !== "athlete")) {
             // check token is from an athlete and its id and athlete's id are the same
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.message = 'A notification can only be created by the specified athlete';
+            ctx.message = "A notification can only be created by the specified athlete";
         } else {
             // save the notification contained in the POST body
             const notification: Notification = await notificationRepository.save(notificationToBeSaved);
@@ -129,20 +148,27 @@ export default class NotificationController {
         }
     }
 
+    @request("put", "/athletes/{athleteId}/notifications/{notificationId}")
+    @summary("Update a notification")
+    @path({
+        athleteId: { type: "number", required: true, description: "id of athlete" },
+        notificationId: { type: "number", required: true, description: "id of notification" },
+    })
+    @body(notificationSchema)
     public static async updateNotification(ctx: BaseContext) {
 
         // get a notification repository to perform operations with notification
         const notificationRepository: Repository<Notification> = getManager().getRepository(Notification);
 
         // retrieve original notification
-        const notification: Notification = await notificationRepository.findOne(+ctx.params.notificationId || 0, { relations: ['athlete', 'coach'] });
+        const notification: Notification = await notificationRepository.findOne(+ctx.params.notificationId || 0, { relations: ["athlete", "coach"] });
 
         // update the notification by specified id
         // build up entity notification to be updated
         // validate if status is contained in ENUM
         const notificationToBeUpdated: Notification = new Notification();
         notificationToBeUpdated.id = +ctx.params.notificationId || 0;
-        notificationToBeUpdated.status = ctx.request.body.status in NotificationStatus ? ctx.request.body.status : '';
+        notificationToBeUpdated.status = ctx.request.body.status in NotificationStatus ? ctx.request.body.status : "";
         notificationToBeUpdated.athlete = notification ? notification.athlete : null;
         notificationToBeUpdated.coach = notification ? notification.coach : null;
 
@@ -153,7 +179,7 @@ export default class NotificationController {
             // check if a notification with the specified notificationId exists
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.message = 'The notification you are trying to update doesn\'t exist in the db';
+            ctx.message = "The notification you are trying to update doesn't exist in the db";
         } else if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
@@ -163,13 +189,13 @@ export default class NotificationController {
             // check if the athlete and coach didn't change for the notification
             // return a BAD REQUEST status code and error message
             ctx.status = 400;
-            ctx.message = 'The specified athlete/coach is not the same as the original athlete/coach in the notification';
-        } else if (((+ctx.state.user.id !== notification.athlete.id) && (ctx.state.user.rol === 'athlete'))
-            || ((+ctx.state.user.id !== notification.coach.id) && (ctx.state.user.rol === 'coach'))) {
+            ctx.message = "The specified athlete/coach is not the same as the original athlete/coach in the notification";
+        } else if (((+ctx.state.user.id !== notification.athlete.id) && (ctx.state.user.rol === "athlete"))
+            || ((+ctx.state.user.id !== notification.coach.id) && (ctx.state.user.rol === "coach"))) {
             // check token is from the implied coach or the athlete owner of the notification
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
-            ctx.message = 'A notification can only be updated by the owner athlete or the coach implied';
+            ctx.message = "A notification can only be updated by the owner athlete or the coach implied";
         } else {
             // update the notification contained in the PUT body
             const notification: Notification = await notificationRepository.save(notificationToBeUpdated);

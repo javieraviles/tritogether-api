@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { Length } from 'class-validator';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Length } from "class-validator";
 
 @Entity()
 export class Discipline {
@@ -13,14 +13,19 @@ export class Discipline {
     name: string;
 
     @CreateDateColumn({
-        type: 'timestamp',
+        type: "timestamp",
         select: false
     })
     createdAt: Date;
 
     @UpdateDateColumn({
-        type: 'timestamp',
+        type: "timestamp",
         select: false
     })
     updatedAt: Date;
 }
+
+export const disciplineSchema = {
+    id: { type: "number", required: true, example: 1 },
+    name: { type: "string", required: true, example: "Swimming" }
+};

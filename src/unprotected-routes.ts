@@ -1,15 +1,15 @@
-import * as Router from 'koa-router';
-import controller = require('./controller');
+import Router from "@koa/router";
+import { auth, coach, athlete } from "./controller";
 
 const unprotectedRouter = new Router();
 
 // AUTH ROUTES
-unprotectedRouter.post('/signin', controller.auth.signIn);
+unprotectedRouter.post("/signin", auth.signIn);
 
 // COACH ROUTES
-unprotectedRouter.post('/coaches', controller.coach.createCoach);
+unprotectedRouter.post("/coaches", coach.createCoach);
 
 // ATHLETE ROUTES
-unprotectedRouter.post('/athletes', controller.athlete.createAthlete);
+unprotectedRouter.post("/athletes", athlete.createAthlete);
 
 export { unprotectedRouter };
