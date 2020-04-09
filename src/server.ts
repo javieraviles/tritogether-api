@@ -1,47 +1,30 @@
-import * as Koa from 'koa';
-import * as jwt from 'koa-jwt';
-import * as bodyParser from 'koa-bodyparser';
-import * as helmet from 'koa-helmet';
-import * as cors from '@koa/cors';
-import * as winston from 'winston';
-import * as dotenv from 'dotenv';
-import { createConnection } from 'typeorm';
-import 'reflect-metadata';
-import * as PostgressConnectionStringParser from 'pg-connection-string';
+import Koa from "koa";
+import jwt from "koa-jwt";
+import bodyParser from "koa-bodyparser";
+import helmet from "koa-helmet";
+import cors from "@koa/cors";
+import winston from "winston";
+import { createConnection } from "typeorm";
+import "reflect-metadata";
 
-import { logger } from './logging';
-import { config } from './config';
-import { protectedRouter } from './protected-routes';
-import { unprotectedRouter } from './unprotected-routes';
-
-
-
-
-// Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({ path: '.env' });
-
-// Get DB connection options from env variable
-const connectionOptions = PostgressConnectionStringParser.parse(config.databaseUrl);
+import { logger } from "./logger";
+import { config } from "./config";
+import { unprotectedRouter } from "./unprotected-routes";
+import { protectedRouter } from "./protected-routes";
 
 // create connection with database
 // note that its not active database connection
 // TypeORM creates you connection pull to uses connections from pull on your requests
 createConnection({
-    type: 'postgres',
-    host: connectionOptions.host,
-    port: connectionOptions.port,
-    username: connectionOptions.user,
-    password: connectionOptions.password,
-    database: connectionOptions.database,
+    type: "postgres",
+    url: config.databaseUrl,
     synchronize: true,
     logging: false,
-    entities: [
-        'dist/entity/**/*.js'
-    ],
+    entities: config.dbEntitiesPath,
     extra: {
         ssl: config.dbsslconn, // if not development, will use SSL
     }
-}).then(async connection => {
+}).then(async () => {
 
     const app = new Koa();
 
@@ -57,17 +40,18 @@ createConnection({
     // Enable bodyParser with default options
     app.use(bodyParser());
 
-    // this routes are NOT protected by the JWT middleware, also include middleware to respond with "Method Not Allowed - 405".
+    // these routes are NOT protected by the JWT middleware, also include middleware to respond with "Method Not Allowed - 405".
     app.use(unprotectedRouter.routes()).use(unprotectedRouter.allowedMethods());
 
     // JWT middleware -> below this line routes are only reached if JWT token is valid, secret as env variable
-    app.use(jwt({ secret: config.jwtSecret }));
+    // do not protect swagger-json and swagger-html endpoints
+    app.use(jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }));
 
-    // this routes are protected by the JWT middleware, also include middleware to respond with "Method Not Allowed - 405".
+    // These routes are protected by the JWT middleware, also include middleware to respond with "Method Not Allowed - 405".
     app.use(protectedRouter.routes()).use(protectedRouter.allowedMethods());
 
     app.listen(config.port);
 
     console.log(`Server running on port ${config.port}`);
 
-}).catch(error => console.log('TypeORM connection error: ', error));
+}).catch((error: string) => console.log("TypeORM connection error: ", error));
