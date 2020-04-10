@@ -69,8 +69,8 @@ export default class CoachController {
         const coach = await coachRepository.findOne(coachId);
 
         if (!coach) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The coach you are trying to retrieve athletes from doesn't exist in the db";
         } else if ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === "coach")) {
             // check if the token of the user performing the request is not the coach whose athletes are trying to be retrieved from
@@ -159,7 +159,7 @@ export default class CoachController {
             .getOne();
 
         // validate coach entity
-        const errors: ValidationError[] = await validate(coachToBeUpdated); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(coachToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (errors.length > 0) {
             // return bad request status code and errors array

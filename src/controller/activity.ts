@@ -1,7 +1,7 @@
 import { BaseContext } from "koa";
 import { getManager, Repository, Raw } from "typeorm";
 import { validate, ValidationError } from "class-validator";
-import { request, summary, path, body, responsesAll, tagsAll } from "koa-swagger-decorator";
+import { request, summary, path, body, responsesAll, tagsAll, query } from "koa-swagger-decorator";
 import { Activity, activitySchema } from "../entity/activity";
 import { Discipline } from "../entity/discipline";
 import { Athlete } from "../entity/athlete";
@@ -14,6 +14,9 @@ export default class ActivityController {
     @summary("Find activities for a specific athlete")
     @path({
         id: { type: "number", required: true, description: "id of athlete" }
+    })
+    @query({
+        month: { type: "string", required: true, description: "month to get activities from"}
     })
     public static async getAthleteActivities(ctx: BaseContext) {
 
@@ -33,8 +36,8 @@ export default class ActivityController {
         }
 
         if (!athlete) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve activities from doesn't exist in the db";
         } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === "athlete"))
             || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === "coach"))
@@ -43,8 +46,13 @@ export default class ActivityController {
             // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.message = "A collection of activities can only be retrieved by the owner athlete or its current coach";
+        } else if (!ctx.query.month) {
+            // return a BAD REQUEST status code and error message
+            ctx.status = 400;
+            ctx.message = "A specific month should be specified as query param";
         } else {
             // load activities for the specified athlete
+            // TODO: only current year as only month is specified
             const activities: Activity[] = await activityRepository.find({
                 relations: ["discipline"],
                 where: { athlete: +ctx.params.id || 0, date: Raw(alias => `date_part('month',"Activity".date) = ${ctx.query.month}`) },
@@ -86,12 +94,12 @@ export default class ActivityController {
         }
 
         if (!activity) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The activity you are trying to retrieve doesn't exist in the db";
         } else if (!athlete) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve the activity from doesn't exist in the db";
         } else if (athlete.id !== activity.athlete.id) {
             // return a BAD REQUEST status code and error message
@@ -150,16 +158,16 @@ export default class ActivityController {
         }
 
         // validate activity entity
-        const errors: ValidationError[] = await validate(activityToBeSaved); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(activityToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (!athlete) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The athlete you are trying to create activities for doesn't exist in the db";
         } else if (errors.length > 0) {
-            // return bad request status code and errors array
+            // return BAD REQUEST status code and errors array
             ctx.status = 400;
-            ctx.message = errors.toString();
+            ctx.body = errors;
         } else if (+ctx.state.user.id !== (coachId) || (ctx.state.user.rol !== "coach")) {
             // check token is from a coach and its id and athlete's coach id are the same
             // return a FORBIDDEN status code and error message
@@ -207,17 +215,17 @@ export default class ActivityController {
         }
 
         // validate activity entity
-        const errors: ValidationError[] = await validate(activityToBeUpdated); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(activityToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (!activity) {
             // check if an activity with the specified activityId exists
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The activity you are trying to update doesn't exist in the db";
         } else if (errors.length > 0) {
-            // return bad request status code and errors array
+            // return BAD REQUEST status code and errors array
             ctx.status = 400;
-            ctx.message = errors.toString();
+            ctx.body = errors;
         } else if ((+ctx.params.athleteId || 0) != activity.athlete.id) {
             // check if the athlete didn't change for the activity
             // return a BAD REQUEST status code and error message
@@ -252,8 +260,8 @@ export default class ActivityController {
         // find the activity by specified activityId
         const activityToRemove: Activity = await activityRepository.findOne(+ctx.params.activityId || 0, { relations: ["athlete", "athlete.coach"] });
         if (!activityToRemove) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The activity you are trying to delete doesn't exist in the db";
         } else if ((+ctx.params.athleteId || 0) != activityToRemove.athlete.id) {
             // return a BAD REQUEST status code and error message
