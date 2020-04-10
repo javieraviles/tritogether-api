@@ -1,0 +1,5006 @@
+{
+	"info": {
+		"_postman_id": "c0f5dd7b-1743-4d83-ae7b-3d1244ba8cc8",
+		"name": "tritogether-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Coach",
+			"item": [
+				{
+					"name": "Create a coach",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create coach id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"coachId\", jsonData.id);",
+									"});",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a coach 400 email exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Error email exists\", function () {",
+									"    pm.response.to.have.body(\"The specified e-mail address already exists\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a coach with wrong email 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Email is not valid\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"email must be an email\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a coach with missing name 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Name is missing\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"name must be longer than or equal to 5 characters\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a coach with invalid password 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Password is not valid\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The specified password must be at least 8 characters long\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_Tri_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Coach JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a coach",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a coach with missing email 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Email is missing\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"email must be longer than or equal to 10 characters\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a different coach 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"Coach can only be updated by its own user\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"A coach can only be updated by its own user\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update unexisting coach 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The coach you are trying to update doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The coach you are trying to update doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/coaches/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coach",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Coach is created and can be fetched successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"coach@citest.com\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unexisting coach 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Coach is not in the DB\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The coach you are trying to retrieve doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coaches",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coach athletes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}",
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get forbidden coach athletes 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"A coach collection of athletes can only be retrieved by the coach itself\", function () {",
+									"    pm.response.to.have.body(\"A coach collection of athletes can only be retrieved by the coach itself\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}",
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unexisting coach athletes 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"The coach you are trying to retrieve athletes from doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The coach you are trying to retrieve athletes from doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/0/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"0",
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete coach forbidden 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"A coach can only be deleted by its own user\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"A coach can only be deleted by its own user\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete unexisting coach 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"The coach you are trying to delete doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The coach you are trying to delete doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Athlete",
+			"item": [
+				{
+					"name": "Create an athlete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create athlete id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"athleteId\", jsonData.id);",
+									"});",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an athlete 400 email exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Error email exists\", function () {",
+									"    pm.response.to.have.body(\"The specified e-mail address already exists\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an athlete with wrong email 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Email is not valid\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"email must be an email\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an athlete with missing name 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Name is missing\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"name must be longer than or equal to 5 characters\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a coach with invalid password 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Password is not valid\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The specified password must be at least 8 characters long\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_Tri_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Athlete JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an athlete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an athlete with missing email 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Email is missing\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"email must be longer than or equal to 10 characters\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a different athlete 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"An athlete can only be updated by its own user\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"An athlete can only be updated by its own user\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update unexisting athlete 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The athlete you are trying to update doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The athlete you are trying to update doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an athlete incorrect password 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Incorrect password\", function () {",
+									"    pm.response.to.have.body(\"Incorrect password\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20?\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athlete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Athlete is created and can be fetched successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"athlete@citest.com\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unexisting athlete 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Athlete is not in the DB\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The athlete you are trying to retrieve doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get forbidden athlete 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Athlete has to be retrieved by itself or coach\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Athlete information can only be retrieved by the owner athlete or its current coach\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athletes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coach of an unexisting athlete 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The athlete/coach you are trying to update doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The athlete/coach you are trying to update doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/0/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update unexisting coach of an athlete 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The athlete/coach you are trying to update doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The athlete/coach you are trying to update doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 0,\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Coach JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coach of an athlete must be coach 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"Athlete's coach must be the one performing the request\", function () {",
+									"    pm.response.to.have.body(\"Athlete's coach must be the one performing the request\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coach of an athlete must exist PENDING notification 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"There is no PENDING coaching notification between specified athlete and coach\", function () {",
+									"    pm.response.to.have.body(\"There is no PENDING coaching notification between specified athlete and coach\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Athlete JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create pending notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"New notification status is PENDING\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"PENDING\");",
+									"});",
+									"",
+									"pm.test(\"Create notification id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"notificationId\", jsonData.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": {{coachId}},\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Coach JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coach of an athlete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Athlete should be updated with a coach\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"athleteId\"));",
+									"    pm.expect(jsonData.coach).to.not.be.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coach of an athlete, there is a coach already 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"There is a coach assigned to the athlete already\", function () {",
+									"    pm.response.to.have.body(\"There is a coach assigned to the athlete already\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coach of an athlete, incorrect password 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Incorrect password\", function () {",
+									"    pm.response.to.have.body(\"Incorrect password\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20?\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update forbidden coach of an athlete 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"Athlete's coach must be the one performing the request\", function () {",
+									"    pm.response.to.have.body(\"Athlete's coach must be the one performing the request\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athlete from coach",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Athlete can be fetched successfully from coach too\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"athlete@citest.com\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Coach JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove coach of an athlete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Coach should be successfully removed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.coach).to.eql(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coach of an athlete again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Athlete should be updated with a coach\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"athleteId\"));",
+									"    pm.expect(jsonData.coach).to.not.be.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/coach",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"coach"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Athlete JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete athlete forbidden 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"An athlete can only be deleted by its own user\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"An athlete can only be deleted by its own user\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete unexisting athlete 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"The athlete you are trying to delete doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The athlete you are trying to delete doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "Get unexisting athlete notifications 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The athlete you are trying to retrieve notifications from doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The athlete you are trying to retrieve notifications from doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/0/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get forbidden athlete notifications 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"Notifications can only be retrieved by the owner athlete\", function () {",
+									"    pm.response.to.have.body(\"Notifications can only be retrieved by the owner athlete\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athlete notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"There is a PENDING notification\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].status).to.eql(\"PENDING\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Coach JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unexisting coach notifications 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The coach you are trying to retrieve notifications from doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The coach you are trying to retrieve notifications from doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/0/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"0",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get forbidden coach notifications 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"Notifications can only be retrieved by the owner coach\", function () {",
+									"    pm.response.to.have.body(\"Notifications can only be retrieved by the owner coach\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coach notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].status).to.eql(\"PENDING\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create pending notification forbidden athlete 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"A notification can only be created by the specified athlete\", function () {",
+									"    pm.response.to.have.body(\"A notification can only be created by the specified athlete\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": {{coachId}},\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Athlete JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create pending notification unexisting athlete 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"The athlete/coach you are trying to create notifications for doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The athlete/coach you are trying to create notifications for doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": {{coachId}},\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/0/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create pending notification unexisting coach 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"The athlete/coach you are trying to create notifications for doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The athlete/coach you are trying to create notifications for doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": 0,\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update unexisting notification 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The notification you are trying to update doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The notification you are trying to update doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"status\": \"APPROVED\",\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": {{coachId}},\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update notification bad status 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Name is missing\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"status should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"status\": \"NOT-POSSIBLE-STATUS\",\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": {{coachId}},\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications/{{notificationId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications",
+								"{{notificationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update notification bad ids 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"The specified athlete/coach is not the same as the original athlete/coach in the notification\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The specified athlete/coach is not the same as the original athlete/coach in the notification\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"status\": \"APPROVED\",\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": 0,\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications/{{notificationId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications",
+								"{{notificationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update forbidden pending notification 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"A notification can only be updated by the owner athlete or the coach implied\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"A notification can only be updated by the owner athlete or the coach implied\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"status\": \"APPROVED\",\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": {{coachId}},\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications/{{notificationId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications",
+								"{{notificationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update pending notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"New notification status is APPROVED\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"APPROVED\");",
+									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"notificationId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"status\": \"APPROVED\",\r\n\t\"athlete\": {\r\n\t\t\"id\": {{athleteId}},\r\n    \t\"name\": \"Integration Test Athlete\",\r\n\t\t\"email\": \"athlete@citest.com\"\t\r\n\t},\r\n\t\"coach\": {\r\n\t\t\"id\": {{coachId}},\r\n    \t\"name\": \"Integration Test Coach\",\r\n\t\t\"email\": \"coach@citest.com\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/notifications/{{notificationId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"notifications",
+								"{{notificationId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Activity",
+			"item": [
+				{
+					"name": "Obtain Coach JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an activity missing description 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"description must be longer than or equal to 10 characters\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"description must be longer than or equal to 10 characters\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 1,\n        \"name\": \"swimming\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an activity unexisting athlete 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The athlete you are trying to create activities for doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The athlete you are trying to create activities for doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description of activity here\",\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 1,\n        \"name\": \"swimming\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/0/activities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0",
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an activity forbidden coach 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"An activity can only be created by the coach of the specified athlete\", function () {",
+									"    pm.response.to.have.body(\"An activity can only be created by the coach of the specified athlete\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{secondaryJwtTokenCoach}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description of activity here\",\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 1,\n        \"name\": \"swimming\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create activity id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"activityId\", jsonData.id);",
+									"});",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description of activity here\",\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 1,\n        \"name\": \"swimming\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unexisting athlete activities 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The athlete you are trying to retrieve activities from doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The athlete you are trying to retrieve activities from doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/0/activities?month=04",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0",
+								"activities"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "04"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get forbidden athlete activities 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"A collection of activities can only be retrieved by the owner athlete or its current coach\", function () {",
+									"    pm.response.to.have.body(\"A collection of activities can only be retrieved by the owner athlete or its current coach\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities?month=04",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "04"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athlete activities missing month 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"A specific month should be specified as query param\", function () {",
+									"    pm.response.to.have.body(\"A specific month should be specified as query param\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athlete activities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"There is a swimming activity\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].discipline.name).to.eql(\"swimming\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities?month=04",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "04"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unexisting athlete activity 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The athlete you are trying to retrieve the activity from doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The athlete you are trying to retrieve the activity from doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/0/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athlete unexisting activity 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The activity you are trying to retrieve doesn't exist in the db\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The activity you are trying to retrieve doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get forbidden athlete activity 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"An activity can only be retrieved by the owner athlete or its current coach\", function () {",
+									"    pm.response.to.have.body(\"An activity can only be retrieved by the owner athlete or its current coach\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get athlete activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"There is a swimming activity\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.discipline.name).to.eql(\"swimming\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update unexisting activity 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The activity you are trying to update doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The activity you are trying to update doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description of cycling activity here\",\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 2,\n        \"name\": \"cycling\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update activity bad discipline 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"discipline should not be empty\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"discipline should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description of cycling activity here\",\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 0,\n        \"name\": \"random-sport\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update forbidden activity 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"An activity can only be updated by the coach of the owner athlete\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"An activity can only be updated by the coach of the owner athlete\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenAthlete}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description of cycling activity here\",\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 2,\n        \"name\": \"cycling\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"There is a swimming activity\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.discipline.name).to.eql(\"cycling\");",
+									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"activityId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description of cycling activity here\",\n    \"date\": \"2020-04-10T00:00:00.000Z\",\n    \"discipline\": {\n        \"id\": 2,\n        \"name\": \"cycling\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete missing activity 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"The activity you are trying to delete doesn't exist in the db\", function () {",
+									"    pm.response.to.have.body(\"The activity you are trying to delete doesn't exist in the db\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete activity wrong athlete 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"The athlete you are specifying and the owner of the activity are not the same\", function () {",
+									"    pm.response.to.have.body(\"The athlete you are specifying and the owner of the activity are not the same\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/0/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"0",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete activity forbidden athlete 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"pm.test(\"An activity can only be deleted by the coach of the owner athlete\", function () {",
+									"    pm.response.to.have.body(\"An activity can only be deleted by the coach of the owner athlete\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{secondaryJwtTokenCoach}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Deletions",
+			"item": [
+				{
+					"name": "Delete created activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}/activities/{{activityId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}",
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Athlete JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete created athlete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/athletes/{{athleteId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"athletes",
+								"{{athleteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtain Coach JWT token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"exec": [
+									"pm.test(\"Create user id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwtToken\", \"Bearer \"+jsonData.access_token);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete created coach",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/coaches/{{coachId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"coaches",
+								"{{coachId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

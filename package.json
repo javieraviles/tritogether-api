@@ -15,9 +15,8 @@
     "serve": "node dist/server.js",
     "build": "npm run lint && npm run build-ts && npm run copy-static-assets",
     "start": "npm run serve",
-    "test:integration:heroku": "newman run integrationtests/node-koa-typescript.postman_collection.json -e integrationtests/env/heroku-dev.postman_environment.json",
-    "test:integration:local": "newman run integrationtests/node-koa-typescript.postman_collection.json -e integrationtests/env/local-dev.postman_environment.json",
-    "test:load": "locust --no-web -c 50 -r 10 -f loadtests/locustfile.py --run-time 1m --host=https://node-typescript-koa-rest.herokuapp.com"
+    "test:integration:heroku": "newman run integrationtests/tritogether-api.postman_collection.json -e integrationtests/env/heroku-dev.postman_environment.json",
+    "test:integration:local": "newman run integrationtests/tritogether-api.postman_collection.json -e integrationtests/env/local-dev.postman_environment.json"
   },
   "engines": {
     "node": "12.x.x",

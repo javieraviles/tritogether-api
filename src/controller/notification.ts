@@ -28,8 +28,8 @@ export default class NotificationController {
         const athlete: Athlete = await athleteRepository.findOne(+ctx.params.id || 0);
 
         if (!athlete) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve notifications from doesn't exist in the db";
         } else if ((+ctx.state.user.id !== athlete.id) || (ctx.state.user.rol !== "athlete")
         ) {
@@ -66,8 +66,8 @@ export default class NotificationController {
         const coach: Coach = await coachRepository.findOne(+ctx.params.id || 0);
 
         if (!coach) {
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The coach you are trying to retrieve notifications from doesn't exist in the db";
         } else if ((+ctx.state.user.id !== coach.id) || (ctx.state.user.rol !== "coach")
         ) {
@@ -111,7 +111,7 @@ export default class NotificationController {
         notificationToBeSaved.status = NotificationStatus.PENDING;
 
         // if valid athlete specified, relate it.
-        let athlete: Athlete = new Athlete();
+        let athlete: Athlete = null;
         let athleteId: number = 0;
         if (athlete = await athleteRepository.findOne(+ctx.params.id || 0)) {
             notificationToBeSaved.athlete = athlete;
@@ -119,12 +119,12 @@ export default class NotificationController {
         }
 
         // if valid coach specified, relate it.
-        let coach: Coach = new Coach();
+        let coach: Coach = null;
         if (ctx.request.body.coach && (coach = await coachRepository.findOne(+ctx.request.body.coach.id || 0))) {
             notificationToBeSaved.coach = coach;
         }
         // validate notification entity
-        const errors: ValidationError[] = await validate(notificationToBeSaved); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(notificationToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (!athlete || !coach) {
             // return a BAD REQUEST status code and error message
@@ -133,7 +133,7 @@ export default class NotificationController {
         } else if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.message = errors.toString();
+            ctx.body = errors;
         } else if (+ctx.state.user.id !== athleteId || (ctx.state.user.rol !== "athlete")) {
             // check token is from an athlete and its id and athlete's id are the same
             // return a FORBIDDEN status code and error message
@@ -173,17 +173,17 @@ export default class NotificationController {
         notificationToBeUpdated.coach = notification ? notification.coach : null;
 
         // validate notification entity
-        const errors: ValidationError[] = await validate(notificationToBeUpdated); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(notificationToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (!notification) {
             // check if a notification with the specified notificationId exists
-            // return a BAD REQUEST status code and error message
-            ctx.status = 400;
+            // return a NOT FOUND status code and error message
+            ctx.status = 404;
             ctx.message = "The notification you are trying to update doesn't exist in the db";
         } else if (errors.length > 0) {
             // return bad request status code and errors array
             ctx.status = 400;
-            ctx.message = errors.toString();
+            ctx.body = errors;
         } else if (((+ctx.params.athleteId || 0) != notification.athlete.id)
             || ((+ctx.request.body.coach.id || 0) != notification.coach.id)) {
             // check if the athlete and coach didn't change for the notification
