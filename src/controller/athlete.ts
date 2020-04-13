@@ -8,6 +8,7 @@ import { Athlete, athleteSchema } from "../entity/athlete";
 import { Coach, coachSchema } from "../entity/coach";
 import { Notification } from "../entity/notification";
 import { NotificationStatus } from "../entity/notificationStatus";
+import { Availability } from "../entity/availability";
 
 @responsesAll({ 200: { description: "success", response: athleteSchema }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })
 @tagsAll(["Athlete"])
@@ -45,7 +46,7 @@ export default class AthleteController {
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
         // load athlete by id with coach entity included
-        const athlete: Athlete = await athleteRepository.findOne(+ctx.params.id || 0, { relations: ["coach"] });
+        const athlete: Athlete = await athleteRepository.findOne(+ctx.params.id || 0, { relations: ["coach", "availability"] });
 
         if (!athlete) {
             // return a NOT FOUND status code and error message
@@ -110,6 +111,8 @@ export default class AthleteController {
             ctx.status = 400;
             ctx.message = "The specified e-mail address already exists";
         } else {
+            const defaultAvailability = new Availability(true, true, true, true, true, true, true);
+            athleteToBeSaved.availability = defaultAvailability;
             // save the athlete contained in the POST body
             const athlete: Athlete = await athleteRepository.save(athleteToBeSaved);
             // return created status code and updated athlete
@@ -138,6 +141,7 @@ export default class AthleteController {
         athleteToBeUpdated.id = +ctx.params.id || 0;
         athleteToBeUpdated.name = ctx.request.body.name;
         athleteToBeUpdated.email = ctx.request.body.email;
+        athleteToBeUpdated.availability = ctx.request.body.availability;
         athleteToBeUpdated.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
 
         // if valid coach specified, relate it. Else, remove it.
@@ -277,11 +281,11 @@ export default class AthleteController {
     })
     public static async deleteAthlete(ctx: BaseContext) {
 
-        // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
+        const availabilityRepository: Repository<Availability> = getManager().getRepository(Availability);
 
         // find the athlete by specified id
-        const athleteToRemove: Athlete = await athleteRepository.findOne(+ctx.params.id || 0);
+        const athleteToRemove: Athlete = await athleteRepository.findOne(+ctx.params.id || 0, { relations: ["availability"] });
         if (!athleteToRemove) {
             // return a NOT FOUND status code and error message
             ctx.status = 404;
@@ -294,6 +298,8 @@ export default class AthleteController {
         } else {
             // the athlete is there so can be removed
             await athleteRepository.remove(athleteToRemove);
+            // I dont like this, but for now, availability can only be removed programatically
+            availabilityRepository.remove(athleteToRemove.availability);
             // return a NO CONTENT status code
             ctx.status = 204;
         }
