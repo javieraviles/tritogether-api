@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from "typeorm";
 import { Length, IsEmail } from "class-validator";
 import { Coach } from "./coach";
+import { Availability } from "./availability";
 
 @Entity()
 export class Athlete {
@@ -29,6 +30,10 @@ export class Athlete {
 
     @ManyToOne(type => Coach, { onDelete: "SET NULL" })
     coach: Coach;
+
+    @OneToOne(type => Availability, { cascade: true })
+    @JoinColumn()
+    availability: Availability;
 
     @CreateDateColumn({
         type: "timestamp",

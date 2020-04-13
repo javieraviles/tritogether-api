@@ -1,6 +1,6 @@
 {
   "name": "tritogether-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "API REST for TriTogether project",
   "main": "dist/server.js",
   "author": "Javier Aviles",

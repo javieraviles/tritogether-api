@@ -914,6 +914,14 @@
 									"});",
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Default availability gets created\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.availability.monday).to.eql(true);",
+									"});",
+									"pm.test(\"Create availability id variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"availabilityId\", jsonData.availability.id);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1257,7 +1265,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1317,7 +1325,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1376,7 +1384,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1435,7 +1443,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1494,7 +1502,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20?\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20?\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1529,6 +1537,11 @@
 									"pm.test(\"Athlete is created and can be fetched successfully\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.email).to.eql(\"athlete@citest.com\");",
+									"});",
+									"",
+									"pm.test(\"Availability gets fetched too\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.availability.wednesday).to.eql(false);",
 									"});"
 								],
 								"type": "text/javascript"
