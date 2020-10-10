@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { IsBoolean } from "class-validator";
-import { Athlete } from "./athlete";
+import { Athlete } from "../entity";
 
 @Entity()
 export class Availability {

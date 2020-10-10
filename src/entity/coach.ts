@@ -37,6 +37,8 @@ export class Coach {
         select: false
     })
     updatedAt: Date;
+
+    rol?: string;
 }
 
 export const coachSchema = {

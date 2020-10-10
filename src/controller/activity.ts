@@ -2,9 +2,7 @@ import { BaseContext } from "koa";
 import { getManager, Repository, Raw } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { request, summary, path, body, responsesAll, tagsAll, query } from "koa-swagger-decorator";
-import { Activity, activitySchema } from "../entity/activity";
-import { Discipline } from "../entity/discipline";
-import { Athlete } from "../entity/athlete";
+import { Activity, activitySchema, Discipline, Athlete, Rol } from "../entity";
 
 @responsesAll({ 200: { description: "success", }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })
 @tagsAll(["Activity"])
@@ -35,8 +33,8 @@ export default class ActivityController {
         if (!athlete) {
             ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve activities from doesn't exist in the db";
-        } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === "athlete"))
-            || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === "coach"))
+        } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === Rol.ATHLETE))
+            || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === Rol.COACH))
         ) {
             // check if the token of the user performing the request is not either the athlete or the current athlete's coach
             ctx.status = 403;
@@ -90,8 +88,8 @@ export default class ActivityController {
         } else if (athlete.id !== activity.athlete.id) {
             ctx.status = 400;
             ctx.message = "The specified athlete is not the owner of the activity";
-        } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === "athlete"))
-            || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === "coach"))
+        } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === Rol.ATHLETE))
+            || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === Rol.COACH))
         ) {
             // check if the token of the user performing the request is not either the athlete
             // or the current athlete's coach related to the activity
@@ -141,7 +139,7 @@ export default class ActivityController {
         } else if (errors.length > 0) {
             ctx.status = 400;
             ctx.body = errors;
-        } else if (+ctx.state.user.id !== (coachId) || (ctx.state.user.rol !== "coach")) {
+        } else if (+ctx.state.user.id !== (coachId) || (ctx.state.user.rol !== Rol.COACH)) {
             // check token is from a coach and its id and athlete's coach id are the same
             ctx.status = 403;
             ctx.message = "An activity can only be created by the coach of the specified athlete";
@@ -189,7 +187,7 @@ export default class ActivityController {
             // check if the athlete didn't change for the activity
             ctx.status = 400;
             ctx.message = "The specified athlete and the owner athlete of the activity are not the same";
-        } else if ((!activity.athlete.coach) || +ctx.state.user.id !== (activity.athlete.coach.id) || (ctx.state.user.rol !== "coach")) {
+        } else if ((!activity.athlete.coach) || +ctx.state.user.id !== (activity.athlete.coach.id) || (ctx.state.user.rol !== Rol.COACH)) {
             // check token is from a coach and its id and athlete's coach id are the same
             ctx.status = 403;
             ctx.message = "An activity can only be updated by the coach of the owner athlete";
@@ -218,7 +216,7 @@ export default class ActivityController {
         } else if ((+ctx.params.athleteId || 0) != activityToRemove.athlete.id) {
             ctx.status = 400;
             ctx.message = "The athlete you are specifying and the owner of the activity are not the same";
-        } else if ((!activityToRemove.athlete.coach) || (+ctx.state.user.id !== activityToRemove.athlete.coach.id) || (ctx.state.user.rol !== "coach")) {
+        } else if ((!activityToRemove.athlete.coach) || (+ctx.state.user.id !== activityToRemove.athlete.coach.id) || (ctx.state.user.rol !== Rol.COACH)) {
             // check token is from a coach and its id and coach athlete id are the same
             ctx.status = 403;
             ctx.message = "An activity can only be deleted by the coach of the owner athlete";

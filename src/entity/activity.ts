@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Length, IsNotEmpty, IsDate } from "class-validator";
-import { Athlete } from "./athlete";
-import { Discipline } from "./discipline";
+import { Athlete, Discipline } from "../entity";
 
 @Entity()
 export class Activity {

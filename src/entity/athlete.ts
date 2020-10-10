@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from "typeorm";
 import { Length, IsEmail } from "class-validator";
-import { Coach } from "./coach";
-import { Availability } from "./availability";
+import { Coach, Availability } from "../entity";
 
 @Entity()
 export class Athlete {
@@ -46,6 +45,8 @@ export class Athlete {
         select: false
     })
     updatedAt: Date;
+
+    rol?: string;
 }
 
 export const athleteSchema = {

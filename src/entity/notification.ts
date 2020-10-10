@@ -1,8 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { IsNotEmpty } from "class-validator";
-import { Athlete } from "./athlete";
-import { Coach } from "./coach";
-import { NotificationStatus } from "./notificationStatus";
+import { Athlete, Coach, NotificationStatus } from "../entity";
 
 @Entity()
 export class Notification {

@@ -2,10 +2,7 @@ import { BaseContext } from "koa";
 import { getManager, Repository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { request, summary, path, body, responsesAll, tagsAll } from "koa-swagger-decorator";
-import { Notification, notificationSchema } from "../entity/notification";
-import { Athlete } from "../entity/athlete";
-import { Coach } from "../entity/coach";
-import { NotificationStatus } from "../entity/notificationStatus";
+import { Athlete, Coach, NotificationStatus, Notification, notificationSchema, Rol } from "../entity";
 
 @responsesAll({ 200: { description: "success", }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })
 @tagsAll(["Notification"])
@@ -26,7 +23,7 @@ export default class NotificationController {
         if (!athlete) {
             ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve notifications from doesn't exist in the db";
-        } else if ((+ctx.state.user.id !== athlete.id) || (ctx.state.user.rol !== "athlete")
+        } else if ((+ctx.state.user.id !== athlete.id) || (ctx.state.user.rol !== Rol.ATHLETE)
         ) {
             // check if the token of the user performing the request is not the athlete itself
             ctx.status = 403;
@@ -56,7 +53,7 @@ export default class NotificationController {
         if (!coach) {
             ctx.status = 404;
             ctx.message = "The coach you are trying to retrieve notifications from doesn't exist in the db";
-        } else if ((+ctx.state.user.id !== coach.id) || (ctx.state.user.rol !== "coach")
+        } else if ((+ctx.state.user.id !== coach.id) || (ctx.state.user.rol !== Rol.COACH)
         ) {
             // check if the token of the user performing the request is not the coach itself
             ctx.status = 403;
@@ -109,7 +106,7 @@ export default class NotificationController {
         } else if (errors.length > 0) {
             ctx.status = 400;
             ctx.body = errors;
-        } else if (+ctx.state.user.id !== athleteId || (ctx.state.user.rol !== "athlete")) {
+        } else if (+ctx.state.user.id !== athleteId || (ctx.state.user.rol !== Rol.ATHLETE)) {
             // check token is from an athlete and its id and athlete's id are the same
             ctx.status = 403;
             ctx.message = "A notification can only be created by the specified athlete";
@@ -153,8 +150,8 @@ export default class NotificationController {
             // check if the athlete and coach didn't change for the notification
             ctx.status = 400;
             ctx.message = "The specified athlete/coach is not the same as the original athlete/coach in the notification";
-        } else if (((+ctx.state.user.id !== notification.athlete.id) && (ctx.state.user.rol === "athlete"))
-            || ((+ctx.state.user.id !== notification.coach.id) && (ctx.state.user.rol === "coach"))) {
+        } else if (((+ctx.state.user.id !== notification.athlete.id) && (ctx.state.user.rol === Rol.ATHLETE))
+            || ((+ctx.state.user.id !== notification.coach.id) && (ctx.state.user.rol === Rol.COACH))) {
             // check token is from the implied coach or the athlete owner of the notification
             ctx.status = 403;
             ctx.message = "A notification can only be updated by the owner athlete or the coach implied";

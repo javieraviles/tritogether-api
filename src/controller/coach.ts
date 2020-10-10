@@ -4,8 +4,7 @@ import { getManager, Repository, Not, Equal } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { request, summary, path, body, responsesAll, tagsAll } from "koa-swagger-decorator";
 import { config } from "../config";
-import { Coach, coachSchema } from "../entity/coach";
-import { Athlete } from "../entity/athlete";
+import { Coach, coachSchema, Athlete, Rol } from "../entity";
 
 @responsesAll({ 200: { description: "success", }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })
 @tagsAll(["Coach"])
@@ -57,7 +56,7 @@ export default class CoachController {
         if (!coach) {
             ctx.status = 404;
             ctx.message = "The coach you are trying to retrieve athletes from doesn't exist in the db";
-        } else if ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === "coach")) {
+        } else if ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === Rol.COACH)) {
             // check if the token of the user performing the request is not the coach whose athletes are trying to be retrieved from
             ctx.status = 403;
             ctx.message = "A coach collection of athletes can only be retrieved by the coach itself";
@@ -133,7 +132,7 @@ export default class CoachController {
         if (errors.length > 0) {
             ctx.status = 400;
             ctx.body = errors;
-        } else if ((+ctx.state.user.id !== coachToBeUpdated.id) || (ctx.state.user.rol !== "coach")) {
+        } else if ((+ctx.state.user.id !== coachToBeUpdated.id) || (ctx.state.user.rol !== Rol.COACH)) {
             // check token is from a coach and its id and coach id are the same
             ctx.status = 403;
             ctx.message = "A coach can only be updated by its own user";
@@ -169,7 +168,7 @@ export default class CoachController {
         if (!coachToRemove) {
             ctx.status = 404;
             ctx.message = "The coach you are trying to delete doesn't exist in the db";
-        } else if ((+ctx.state.user.id !== coachToRemove.id) || (ctx.state.user.rol !== "coach")) {
+        } else if ((+ctx.state.user.id !== coachToRemove.id) || (ctx.state.user.rol !== Rol.COACH)) {
             // check token is from a coach and its id and coach id are the same
             ctx.status = 403;
             ctx.message = "A coach can only be deleted by its own user";

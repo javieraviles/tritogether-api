@@ -4,11 +4,7 @@ import { getManager, Repository, Not, Equal } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { request, summary, path, body, responsesAll, tagsAll } from "koa-swagger-decorator";
 import { config } from "../config";
-import { Athlete, athleteSchema } from "../entity/athlete";
-import { Coach, coachSchema } from "../entity/coach";
-import { Notification } from "../entity/notification";
-import { NotificationStatus } from "../entity/notificationStatus";
-import { Availability } from "../entity/availability";
+import { Athlete, athleteSchema, Coach, coachSchema, Notification, NotificationStatus, Availability, Rol } from "../entity";
 
 @responsesAll({ 200: { description: "success", response: athleteSchema }, 400: { description: "bad request" }, 401: { description: "unauthorized, missing/wrong jwt token" } })
 @tagsAll(["Athlete"])
@@ -46,9 +42,9 @@ export default class AthleteController {
         if (!athlete) {
             ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve doesn't exist in the db";
-        } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === "athlete"))
-            || ((!athlete.coach) && (ctx.state.user.rol === "coach"))
-            || (athlete.coach && (+ctx.state.user.id !== athlete.coach.id) && (ctx.state.user.rol === "coach"))
+        } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === Rol.ATHLETE))
+            || ((!athlete.coach) && (ctx.state.user.rol === Rol.COACH))
+            || (athlete.coach && (+ctx.state.user.id !== athlete.coach.id) && (ctx.state.user.rol === Rol.COACH))
         ) {
             // check if the token of the user performing the request is not either the athlete or the current athlete's coach
             ctx.status = 403;
@@ -137,7 +133,7 @@ export default class AthleteController {
         if (errors.length > 0) {
             ctx.status = 400;
             ctx.body = errors;
-        } else if ((+ctx.state.user.id !== athleteToBeUpdated.id) || (ctx.state.user.rol !== "athlete")) {
+        } else if ((+ctx.state.user.id !== athleteToBeUpdated.id) || (ctx.state.user.rol !== Rol.ATHLETE)) {
             // check token is from an athlete and its id and athlete id are the same
             ctx.status = 403;
             ctx.message = "An athlete can only be updated by its own user";
@@ -238,7 +234,7 @@ export default class AthleteController {
         if (!athleteToRemove) {
             ctx.status = 404;
             ctx.message = "The athlete you are trying to delete doesn't exist in the db";
-        } else if ((+ctx.state.user.id !== athleteToRemove.id) || (ctx.state.user.rol !== "athlete")) {
+        } else if ((+ctx.state.user.id !== athleteToRemove.id) || (ctx.state.user.rol !== Rol.ATHLETE)) {
             // check token is from an athlete and its id and athlete id are the same
             ctx.status = 403;
             ctx.message = "An athlete can only be deleted by its own user";

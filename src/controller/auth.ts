@@ -4,8 +4,7 @@ import { BaseContext } from "koa";
 import { config } from "../config";
 import { getManager, Repository } from "typeorm";
 import { request, summary, body, responsesAll, tagsAll } from "koa-swagger-decorator";
-import { Athlete } from "../entity/athlete";
-import { Coach } from "../entity/coach";
+import { Athlete, Coach, Rol } from "../entity";
 
 const authSchema = {
     email: { type: "string", required: true, example: "avileslopez.javier@gmail.com" },
@@ -31,7 +30,7 @@ export default class AuthController {
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
-        let user: any;
+        let user: Coach | Athlete;
 
         if (Boolean(ctx.request.body.isCoach)) {
             // load coach by email, query users queryBuilder to addSelect(password), otherwise hidden
@@ -59,7 +58,7 @@ export default class AuthController {
             return;
         }
 
-        const rol = ctx.request.body.isCoach ? "coach" : "athlete";
+        const rol = ctx.request.body.isCoach ? Rol.COACH : Rol.ATHLETE;
 
         const token = jwt.sign({
             id: user.id,
