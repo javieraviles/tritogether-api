@@ -28,10 +28,7 @@ export default class AuthController {
             return;
         }
 
-        // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
-
-        // get a coach repository to perform operations with coach
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
         let user: any;
