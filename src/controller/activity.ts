@@ -20,10 +20,7 @@ export default class ActivityController {
     })
     public static async getAthleteActivities(ctx: BaseContext) {
 
-        // get an activity repository to perform operations with activity
         const activityRepository: Repository<Activity> = getManager().getRepository(Activity);
-
-        // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
         // load athlete by id with coach entity included
@@ -36,22 +33,18 @@ export default class ActivityController {
         }
 
         if (!athlete) {
-            // return a NOT FOUND status code and error message
             ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve activities from doesn't exist in the db";
         } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === "athlete"))
             || ((+ctx.state.user.id !== coachId) && (ctx.state.user.rol === "coach"))
         ) {
             // check if the token of the user performing the request is not either the athlete or the current athlete's coach
-            // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.message = "A collection of activities can only be retrieved by the owner athlete or its current coach";
         } else if (!ctx.query.month) {
-            // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.message = "A specific month should be specified as query param";
         } else {
-            // load activities for the specified athlete
             // TODO: only current year as only month is specified
             const activities: Activity[] = await activityRepository.find({
                 relations: ["discipline"],
@@ -61,7 +54,6 @@ export default class ActivityController {
                     discipline: "ASC"
                 }
             });
-            // return loaded collection of activities
             ctx.status = 200;
             ctx.body = activities;
         }
@@ -75,13 +67,9 @@ export default class ActivityController {
     })
     public static async getAthleteActivity(ctx: BaseContext) {
 
-        // get an activity repository to perform operations with activity
         const activityRepository: Repository<Activity> = getManager().getRepository(Activity);
-
-        // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
 
-        // load activity for the specified activityId
         const activity: Activity = await activityRepository.findOne(+ctx.params.activityId || 0, { relations: ["athlete", "discipline"] });
 
         // load activity athlete with coach entity included
@@ -94,15 +82,12 @@ export default class ActivityController {
         }
 
         if (!activity) {
-            // return a NOT FOUND status code and error message
             ctx.status = 404;
             ctx.message = "The activity you are trying to retrieve doesn't exist in the db";
         } else if (!athlete) {
-            // return a NOT FOUND status code and error message
             ctx.status = 404;
             ctx.message = "The athlete you are trying to retrieve the activity from doesn't exist in the db";
         } else if (athlete.id !== activity.athlete.id) {
-            // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.message = "The specified athlete is not the owner of the activity";
         } else if (((+ctx.state.user.id !== athlete.id) && (ctx.state.user.rol === "athlete"))
@@ -110,11 +95,9 @@ export default class ActivityController {
         ) {
             // check if the token of the user performing the request is not either the athlete
             // or the current athlete's coach related to the activity
-            // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.message = "An activity can only be retrieved by the owner athlete or its current coach";
         } else {
-            // return loaded activity
             ctx.status = 200;
             ctx.body = activity;
         }
@@ -128,16 +111,10 @@ export default class ActivityController {
     @body(activitySchema)
     public static async createActivity(ctx: BaseContext) {
 
-        // get an activity repository to perform operations with activity
         const activityRepository: Repository<Activity> = getManager().getRepository(Activity);
-
-        // get an athlete repository to perform operations with athlete
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
-
-        // get a discipline repository to perform operations with discipline
         const disciplineRepository: Repository<Discipline> = getManager().getRepository(Discipline);
 
-        // build up entity activity to be saved
         const activityToBeSaved: Activity = new Activity();
         activityToBeSaved.description = ctx.request.body.description;
         activityToBeSaved.date = new Date(ctx.request.body.date);
@@ -156,27 +133,20 @@ export default class ActivityController {
         if (ctx.request.body.discipline && (discipline = await disciplineRepository.findOne(+ctx.request.body.discipline.id || 0))) {
             activityToBeSaved.discipline = discipline;
         }
-
-        // validate activity entity
         const errors: ValidationError[] = await validate(activityToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (!athlete) {
-            // return a NOT FOUND status code and error message
             ctx.status = 404;
             ctx.message = "The athlete you are trying to create activities for doesn't exist in the db";
         } else if (errors.length > 0) {
-            // return BAD REQUEST status code and errors array
             ctx.status = 400;
             ctx.body = errors;
         } else if (+ctx.state.user.id !== (coachId) || (ctx.state.user.rol !== "coach")) {
             // check token is from a coach and its id and athlete's coach id are the same
-            // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.message = "An activity can only be created by the coach of the specified athlete";
         } else {
-            // save the activity contained in the POST body
             const activity: Activity = await activityRepository.save(activityToBeSaved);
-            // return created status code and created activity
             ctx.status = 201;
             ctx.body = activity;
         }
@@ -191,17 +161,11 @@ export default class ActivityController {
     @body(activitySchema)
     public static async updateActivity(ctx: BaseContext) {
 
-        // get an activity repository to perform operations with activity
         const activityRepository: Repository<Activity> = getManager().getRepository(Activity);
-
-        // get a discipline repository to perform operations with discipline
         const disciplineRepository: Repository<Discipline> = getManager().getRepository(Discipline);
 
-        // retrieve original activity
         const activity: Activity = await activityRepository.findOne(+ctx.params.activityId || 0, { relations: ["athlete", "athlete.coach"] });
 
-        // update the activity by specified id
-        // build up entity activity to be updated
         const activityToBeUpdated: Activity = new Activity();
         activityToBeUpdated.id = +ctx.params.activityId || 0;
         activityToBeUpdated.description = ctx.request.body.description;
@@ -213,33 +177,24 @@ export default class ActivityController {
         if (ctx.request.body.discipline && (discipline = await disciplineRepository.findOne(+ctx.request.body.discipline.id || 0))) {
             activityToBeUpdated.discipline = discipline;
         }
-
-        // validate activity entity
         const errors: ValidationError[] = await validate(activityToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
 
         if (!activity) {
-            // check if an activity with the specified activityId exists
-            // return a NOT FOUND status code and error message
             ctx.status = 404;
             ctx.message = "The activity you are trying to update doesn't exist in the db";
         } else if (errors.length > 0) {
-            // return BAD REQUEST status code and errors array
             ctx.status = 400;
             ctx.body = errors;
         } else if ((+ctx.params.athleteId || 0) != activity.athlete.id) {
             // check if the athlete didn't change for the activity
-            // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.message = "The specified athlete and the owner athlete of the activity are not the same";
         } else if ((!activity.athlete.coach) || +ctx.state.user.id !== (activity.athlete.coach.id) || (ctx.state.user.rol !== "coach")) {
             // check token is from a coach and its id and athlete's coach id are the same
-            // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.message = "An activity can only be updated by the coach of the owner athlete";
         } else {
-            // update the activity contained in the PUT body
             const activity: Activity = await activityRepository.save(activityToBeUpdated);
-            // return created status code and updated activity
             ctx.status = 201;
             ctx.body = activity;
         }
@@ -254,28 +209,21 @@ export default class ActivityController {
     })
     public static async deleteActivity(ctx: BaseContext) {
 
-        // get an activity repository to perform operations with activity
         const activityRepository: Repository<Activity> = getManager().getRepository(Activity);
 
-        // find the activity by specified activityId
         const activityToRemove: Activity = await activityRepository.findOne(+ctx.params.activityId || 0, { relations: ["athlete", "athlete.coach"] });
         if (!activityToRemove) {
-            // return a NOT FOUND status code and error message
             ctx.status = 404;
             ctx.message = "The activity you are trying to delete doesn't exist in the db";
         } else if ((+ctx.params.athleteId || 0) != activityToRemove.athlete.id) {
-            // return a BAD REQUEST status code and error message
             ctx.status = 400;
             ctx.message = "The athlete you are specifying and the owner of the activity are not the same";
         } else if ((!activityToRemove.athlete.coach) || (+ctx.state.user.id !== activityToRemove.athlete.coach.id) || (ctx.state.user.rol !== "coach")) {
             // check token is from a coach and its id and coach athlete id are the same
-            // return a FORBIDDEN status code and error message
             ctx.status = 403;
             ctx.message = "An activity can only be deleted by the coach of the owner athlete";
         } else {
-            // the athlete is there so can be removed
             await activityRepository.remove(activityToRemove);
-            // return a NO CONTENT status code
             ctx.status = 204;
         }
 
