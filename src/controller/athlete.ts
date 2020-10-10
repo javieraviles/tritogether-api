@@ -212,9 +212,13 @@ export default class AthleteController {
 
         // if valid coach specified, find it.
         // If no coach specified, current coach wants to remove himself
+        let coachId: number = +ctx.request.body.id;
+        if(Number.isNaN(coachId)) {
+            coachId = +ctx.state.user.id;
+        }
         const coach: Coach = await coachRepository.createQueryBuilder("coach")
             .addSelect("coach.password")
-            .where("coach.id = :id", { id: +ctx.request.body.id || +ctx.state.user.id })
+            .where("coach.id = :id", { id: coachId })
             .getOne();
 
         // get athlete from db with coach included to double check
@@ -229,7 +233,7 @@ export default class AthleteController {
             relations: ["athlete", "coach"],
             where: { athlete: +ctx.params.id || 0, coach: +ctx.request.body.id || 0, status: NotificationStatus.PENDING }
         });
-
+        
         if (!athlete || !coach) {
             // check if an athlete and a coach with the specified ids exist
             // if not, return a NOT FOUND status code and error message
