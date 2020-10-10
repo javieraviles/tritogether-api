@@ -1,0 +1,48 @@
+name: CICD
+
+on:
+  push:
+    branches:    
+      - master
+
+jobs:
+  build:
+    name: Build the project
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Install dependencies
+      run: npm ci
+    - name: Building the project
+      run: npm run build
+  
+  deploy_to_heroku:
+    name: Deploy to Heroku
+    runs-on: ubuntu-16.04
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.5.7
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{ secrets.HEROKU_APP }}
+          heroku_email: "avileslopez.javier@gmail.com"
+          usedocker: true
+
+  integration_tests:
+    name: Run integration tests
+    runs-on: ubuntu-16.04
+    needs: [build, deploy_to_heroku]
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Install Newman
+      run: npm install -g newman
+    - name: Integration Tests
+      run: npm run test:integration:heroku
+      
