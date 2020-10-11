@@ -62,8 +62,6 @@ export default class AuthController {
 
         const token = jwt.sign({
             id: user.id,
-            name: user.name,
-            email: user.email,
             rol: rol
         }, config.jwtSecret, { expiresIn: config.jwtExpiration });
 

@@ -98,7 +98,7 @@ export default class NotificationController {
         if (ctx.request.body.coach && (coach = await coachRepository.findOne(+ctx.request.body.coach.id || 0))) {
             notificationToBeSaved.coach = coach;
         }
-        const errors: ValidationError[] = await validate(notificationToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(notificationToBeSaved, { validationError: { target: false } });
 
         if (!athlete || !coach) {
             ctx.status = 400;
@@ -137,7 +137,7 @@ export default class NotificationController {
         notificationToBeUpdated.athlete = notification ? notification.athlete : null;
         notificationToBeUpdated.coach = notification ? notification.coach : null;
 
-        const errors: ValidationError[] = await validate(notificationToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(notificationToBeUpdated, { validationError: { target: false } });
 
         if (!notification) {
             ctx.status = 404;

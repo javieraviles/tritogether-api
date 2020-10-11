@@ -131,7 +131,7 @@ export default class ActivityController {
         if (ctx.request.body.discipline && (discipline = await disciplineRepository.findOne(+ctx.request.body.discipline.id || 0))) {
             activityToBeSaved.discipline = discipline;
         }
-        const errors: ValidationError[] = await validate(activityToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(activityToBeSaved, { validationError: { target: false } });
 
         if (!athlete) {
             ctx.status = 404;
@@ -175,7 +175,7 @@ export default class ActivityController {
         if (ctx.request.body.discipline && (discipline = await disciplineRepository.findOne(+ctx.request.body.discipline.id || 0))) {
             activityToBeUpdated.discipline = discipline;
         }
-        const errors: ValidationError[] = await validate(activityToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(activityToBeUpdated, { validationError: { target: false } });
 
         if (!activity) {
             ctx.status = 404;

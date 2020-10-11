@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c0f5dd7b-1743-4d83-ae7b-3d1244ba8cc8",
+		"_postman_id": "7dd85f70-5689-4ce3-9f96-b091937c9afa",
 		"name": "tritogether-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "57f9e1ae-940d-4d69-9ed3-3ce9c86e2bc8",
 								"exec": [
 									"pm.test(\"Create coach id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -68,7 +68,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "6c1b77cf-8af0-469d-8fc2-ccc2b16ff663",
 								"exec": [
 									"pm.test(\"Error email exists\", function () {",
 									"    pm.response.to.have.body(\"The specified e-mail address already exists\");",
@@ -121,7 +121,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "0ab301d6-34b3-4f3a-8cc9-d79f78912b06",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -174,7 +174,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c215fa10-64d2-45f3-b50a-611b7d242772",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -228,7 +228,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "a440c8df-d9f8-4714-9068-7352367b1f91",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -281,7 +281,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "d9c66972-5025-4f68-9442-28e425c06f6f",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -335,7 +335,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "142c2313-003e-4b62-ac58-aaf3e5e46c16",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -365,7 +365,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -391,7 +391,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "d83b8a06-988f-4ec9-821a-4c4cf6373bf0",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -425,7 +425,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -451,7 +451,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "e849a004-dd75-4add-bf42-29686bd74952",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -484,7 +484,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -510,7 +510,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "0703af2a-92e0-4c2a-846f-ee8d8b5f089c",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -543,7 +543,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -569,7 +569,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"id": "d122c251-3166-478e-aed3-72b1a5caf607",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -612,7 +612,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"id": "651f07cb-54bf-4a4a-9833-5686f37b0987",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -654,7 +654,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"id": "ab47807a-bbf3-41ad-93ce-dbfd1931a746",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -691,7 +691,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"id": "8ce72b86-41e7-4d83-8780-288ce068f540",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -730,7 +730,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"id": "565bf08d-18c7-404d-8c51-13d46ee97e19",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -773,7 +773,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"id": "14718c4e-37a5-4591-8aa3-86e7022eab1f",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -816,7 +816,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"id": "704108f4-6e65-4bc4-a2c0-bdd628bba868",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -858,7 +858,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"id": "e014593f-296a-45df-9a61-fc89f59f3412",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -906,7 +906,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c463023c-52b1-4c75-8e67-fa65d515ed2b",
 								"exec": [
 									"pm.test(\"Create athlete id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -968,7 +968,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "086a3266-d1ac-4836-98cc-5e1395c86e88",
 								"exec": [
 									"pm.test(\"Error email exists\", function () {",
 									"    pm.response.to.have.body(\"The specified e-mail address already exists\");",
@@ -1021,7 +1021,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "a149827b-d535-4fe2-b5c4-38ade91ed03d",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1074,7 +1074,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "a6b0310c-5f2f-45b6-802c-338d8ecb98cf",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1128,7 +1128,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "72a7262b-275f-413d-926e-565d3e7ea89e",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1181,7 +1181,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "fb5c0ed7-b5c2-4803-9a7e-cb9e005cade5",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -1235,7 +1235,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "480dfbe3-28dd-447f-beda-5b3faac29e92",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -1265,7 +1265,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1291,7 +1291,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "5b4c36ec-a73b-4580-b5dd-5cde73a8102b",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1325,7 +1325,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1351,7 +1351,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "a11224cd-bfaf-48c4-a5e0-a0ee6fad0742",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1384,7 +1384,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1410,7 +1410,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "ab6c528c-78e0-4251-bfed-0a6b8f6526ba",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1443,7 +1443,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1464,71 +1464,12 @@
 					"response": []
 				},
 				{
-					"name": "Update an athlete incorrect password 400",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
-								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"pm.test(\"Incorrect password\", function () {",
-									"    pm.response.to.have.body(\"Incorrect password\");",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "{{jwtToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Athlete\",\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20?\",\r\n\t\"availability\": {\r\n\t\t\"id\": {{availabilityId}},\r\n        \"monday\": true,\r\n        \"tuesday\": true,\r\n        \"wednesday\": false,\r\n        \"thursday\": false,\r\n        \"friday\": true,\r\n        \"saturday\": true,\r\n        \"sunday\": true\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/athletes/{{athleteId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"athletes",
-								"{{athleteId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get athlete",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"id": "565fa9e4-c6a7-4f06-8906-b6d34524c60a",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -1576,7 +1517,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"id": "398395c0-28eb-4b6f-91b3-e29c8dcae383",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1618,7 +1559,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"id": "803496f7-e9a0-422a-a1ed-f4113d2fe866",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1660,7 +1601,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f43684e7-b04e-4b96-aa0d-2b8048dbe839",
+								"id": "67019ab9-4f8e-445c-9a24-b957c11b0bf9",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -1697,7 +1638,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "16d51f63-9f84-419b-aceb-f024055952f2",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1757,7 +1698,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "5533047d-ce3a-44da-b412-7bb9f0d24c00",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1790,7 +1731,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"id\": 0,\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1817,7 +1758,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "816324a4-1570-4317-b5bd-e5c9a6834cdb",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -1871,7 +1812,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c6ae5b04-00db-486a-b184-ef5461999c8f",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1931,7 +1872,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "3aec7bf7-180a-4b7b-9309-f8aaf3ada9ed",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1991,7 +1932,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "1e41595d-d989-43b6-b353-38cfc2c06d91",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2045,7 +1986,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "7fe275ac-f90c-4283-9716-c4eba12972c1",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2111,7 +2052,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "5a07f6df-edc3-4437-a761-8bb4e4e0a738",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2165,7 +2106,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "61a79cfc-c2ec-4b0d-a177-9dfee5baa8a0",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2227,7 +2168,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "386ef3e8-8fa7-4e56-8da3-34fe16155098",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -2282,72 +2223,12 @@
 					"response": []
 				},
 				{
-					"name": "Update coach of an athlete, incorrect password 400",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
-								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"pm.test(\"Incorrect password\", function () {",
-									"    pm.response.to.have.body(\"Incorrect password\");",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "{{jwtToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20?\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/athletes/{{athleteId}}/coach",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"athletes",
-								"{{athleteId}}",
-								"coach"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Update forbidden coach of an athlete 403",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "9bcb83eb-19bc-44d0-9f99-e9c732729add",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -2380,7 +2261,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n\t\"id\": {{coachId}},\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2407,7 +2288,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3d18402-eb02-4ec5-a3b6-486af7a84f88",
+								"id": "4de199e7-680f-4cf3-af07-a83ab96ec0b7",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -2450,7 +2331,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "470b3bce-8080-4658-94d5-b0e8d12f1993",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2504,7 +2385,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "68a0a934-6cd4-44f6-a78f-860f6dcd3a35",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2538,7 +2419,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\",\r\n\t\"password\": \"_TriTogether20_\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Integration Test Coach\",\r\n\t\"email\": \"coach@citest.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2565,7 +2446,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "b31d22fd-6b42-4a68-9702-f3d58eeba9fa",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2627,7 +2508,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c621d00f-fafc-4fed-a1fa-c2628df89210",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2681,7 +2562,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"id": "d19f5470-c7e3-4333-9c6c-5bf6e3c8bc72",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -2723,7 +2604,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13411841-ded9-4732-a497-8304b56ef036",
+								"id": "de698c6d-562d-4ace-b5a5-1d9a09b23eb9",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -2771,7 +2652,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "4a917a24-a1fe-484a-a254-b07aabf985d0",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -2822,7 +2703,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c2307178-5b18-4379-8065-c1f4d600c100",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -2873,7 +2754,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "1d2d87b5-14a7-4ac5-88fd-24df240143cc",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -2926,7 +2807,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "fd1a03b7-a5f5-46a9-b97b-e635f97e3eff",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2980,7 +2861,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "b0dab5fc-7533-4e1e-8733-dc92f6c17094",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -3031,7 +2912,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "abcee63b-7760-47a7-ba1a-e8f1b0c1d2ea",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3082,7 +2963,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "9b975cc8-f1a2-4ff8-b8cb-72b2153dca9b",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -3135,7 +3016,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "3e64fb04-2625-4529-a07c-8342acd29c5f",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3195,7 +3076,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "31571268-2a13-4bb2-a2c7-836dbb8e0e6e",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -3249,7 +3130,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "297a8347-3e48-40e6-aa08-751e9a904ace",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3309,7 +3190,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "a52dce50-8b64-49f9-96e5-c4b17c27dd2c",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3369,7 +3250,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "18871bf7-5592-4c2d-814b-4d58d58567fe",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -3430,7 +3311,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c8586773-69ec-462d-a75b-e3d08780b27e",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3491,7 +3372,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "cadebf48-7493-4a09-9443-afe8ed2a7f65",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3552,7 +3433,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "9168323e-9711-491b-9c6e-7734616bbb2e",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3613,7 +3494,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "402ac94f-ed5f-4885-92d2-822474a96177",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -3682,7 +3563,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "bb9d9cb5-c43e-4e59-87f8-d637dadf7d3f",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -3736,7 +3617,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "640ba727-1ae8-432b-a682-dcc9ca28e148",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3796,7 +3677,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "2e67b356-ec25-4335-8099-1eb4a8d0a67a",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -3856,7 +3737,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "f9845c38-7c80-42b8-900c-904847632c9c",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3916,7 +3797,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "d057a326-0d9d-437d-814c-a026d49b07b3",
 								"exec": [
 									"pm.test(\"Create activity id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -3977,7 +3858,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "011a6d3c-1b08-4e49-9ee1-db5d38056ea8",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4034,7 +3915,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "f6dfe8f9-702e-4d80-b901-0f3e31227c1d",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -4091,7 +3972,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "7aa4eada-3652-46da-9051-8f4fdacddf82",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -4143,7 +4024,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "4d6157b4-691d-41e6-86aa-d14602b853c1",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -4202,7 +4083,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "e07746f7-907b-45b3-808e-7baf3142ce5a",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4254,7 +4135,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "0913b96c-dd7f-4522-86e9-36438c5724f9",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4306,7 +4187,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c1f199b3-0ab3-48da-8cfe-58823f46ff46",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -4358,7 +4239,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "8a622d6f-ebf1-405f-8988-f564854434fe",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -4412,7 +4293,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "13db7c6d-ed39-4602-a6b5-e0c99c8ec4fa",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4473,7 +4354,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "6c2d480b-dcd8-4a61-817e-760d24305ce9",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -4534,7 +4415,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "be40278a-33bc-4a33-9802-a1d372d9f9b5",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -4595,7 +4476,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "3b31fa53-f99e-4688-a21d-ace598877c9b",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -4658,7 +4539,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"id": "c96d778e-70aa-432b-897b-989914459a65",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4701,7 +4582,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"id": "18366df8-19ba-4bcf-acf8-2870fe119c04",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -4744,7 +4625,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"id": "c9264b54-13be-4eed-a581-abaae4eaf944",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -4793,7 +4674,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"id": "76b45477-1efa-4e2e-b564-e40ebc0bc648",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -4833,7 +4714,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "819c5334-ec54-40d5-a56c-3b8b3fea617d",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -4887,7 +4768,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"id": "11fd1161-a068-4fa4-bef8-254f5fe7a340",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -4925,7 +4806,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "317968ef-610a-4f58-86f1-aebda47cb4f3",
+								"id": "c694e0ec-380f-434b-b24c-7dc6f018b8a8",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -4979,7 +4860,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "326f52fa-5ee4-4d89-b353-23163fe20fde",
+								"id": "7880d0f7-e620-45a8-ae3e-2da90158794c",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",

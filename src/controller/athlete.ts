@@ -78,7 +78,7 @@ export default class AthleteController {
         if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(+ctx.request.body.coach.id || 0))) {
             athleteToBeSaved.coach = coach;
         }
-        const errors: ValidationError[] = await validate(athleteToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(athleteToBeSaved, { validationError: { target: false } });
 
         if (errors.length > 0) {
             ctx.status = 400;
@@ -109,12 +109,17 @@ export default class AthleteController {
         const athleteRepository: Repository<Athlete> = getManager().getRepository(Athlete);
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
+        const athlete: Athlete = await athleteRepository.createQueryBuilder("athlete")
+            .addSelect("athlete.password")
+            .where("athlete.id = :id", { id: +ctx.params.id || 0 })
+            .getOne();
+
         const athleteToBeUpdated: Athlete = new Athlete();
         athleteToBeUpdated.id = +ctx.params.id || 0;
         athleteToBeUpdated.name = ctx.request.body.name;
         athleteToBeUpdated.email = ctx.request.body.email;
         athleteToBeUpdated.availability = ctx.request.body.availability;
-        athleteToBeUpdated.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
+        athleteToBeUpdated.password = athlete?.password;
 
         let coach: Coach = new Coach();
         if (Boolean(ctx.request.body.coach) && (coach = await coachRepository.findOne(+ctx.request.body.coach.id || 0))) {
@@ -122,33 +127,24 @@ export default class AthleteController {
         } else {
             athleteToBeUpdated.coach = null;
         }
+        const errors: ValidationError[] = await validate(athleteToBeUpdated, { validationError: { target: false } });
 
-        const athlete: Athlete = await athleteRepository.createQueryBuilder("athlete")
-            .addSelect("athlete.password")
-            .where("athlete.id = :id", { id: athleteToBeUpdated.id })
-            .getOne();
-
-        const errors: ValidationError[] = await validate(athleteToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
-
-        if (errors.length > 0) {
-            ctx.status = 400;
-            ctx.body = errors;
+        if (!athlete) {
+            ctx.status = 404;
+            ctx.message = "The athlete you are trying to update doesn't exist in the db";
         } else if ((+ctx.state.user.id !== athleteToBeUpdated.id) || (ctx.state.user.rol !== Rol.ATHLETE)) {
             // check token is from an athlete and its id and athlete id are the same
             ctx.status = 403;
             ctx.message = "An athlete can only be updated by its own user";
-        } else if (!athlete) {
-            ctx.status = 404;
-            ctx.message = "The athlete you are trying to update doesn't exist in the db";
+        } else if (errors.length > 0) {
+            ctx.status = 400;
+            ctx.body = errors;
         } else if (await athleteRepository.findOne({ id: Not(Equal(athleteToBeUpdated.id)), email: athleteToBeUpdated.email })) {
             ctx.message = "The specified e-mail address already exists";
-        } else if (!await bcryptjs.compare(ctx.request.body.password, athlete.password)) {
-            ctx.status = 400;
-            ctx.message = "Incorrect password";
         } else {
-            const athlete: Athlete = await athleteRepository.save(athleteToBeUpdated);
+            const updatedAthlete: Athlete = await athleteRepository.save(athleteToBeUpdated);
             ctx.status = 201;
-            ctx.body = athlete;
+            ctx.body = updatedAthlete;
         }
 
     }
@@ -172,7 +168,6 @@ export default class AthleteController {
             coachId = +ctx.state.user.id;
         }
         const coach: Coach = await coachRepository.createQueryBuilder("coach")
-            .addSelect("coach.password")
             .where("coach.id = :id", { id: coachId })
             .getOne();
 
@@ -206,10 +201,6 @@ export default class AthleteController {
         } else if (!ctx.request.body.id && (!athlete.coach || (athlete.coach.id !== coach.id))) {
             ctx.status = 403;
             ctx.message = "Only current athlete's coach can remove himself";
-        } else if (!ctx.request.body.id && (!ctx.request.body.password || !await bcryptjs.compare(ctx.request.body.password, coach.password))) {
-            // coach must inform his password correctly
-            ctx.status = 400;
-            ctx.message = "Incorrect password";
         } else {
             // update the coach or remove it if no coach specified
             athlete.coach = +ctx.request.body.id ? coach : null;

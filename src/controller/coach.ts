@@ -88,7 +88,7 @@ export default class CoachController {
         if (ctx.request.body.password){
             coachToBeSaved.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
         }
-        const errors: ValidationError[] = await validate(coachToBeSaved, { validationError: { target: false } }); // errors is an array of validation errors
+        const errors: ValidationError[] = await validate(coachToBeSaved, { validationError: { target: false } });
 
         if (errors.length > 0) {
             ctx.status = 400;
@@ -116,39 +116,36 @@ export default class CoachController {
 
         const coachRepository: Repository<Coach> = getManager().getRepository(Coach);
 
+        const coach = await coachRepository.createQueryBuilder("coach")
+            .addSelect("coach.password")
+            .where("coach.id = :id", { id: +ctx.params.id || 0 })
+            .getOne();
+
         const coachToBeUpdated: Coach = new Coach();
         coachToBeUpdated.id = +ctx.params.id || 0;
         coachToBeUpdated.name = ctx.request.body.name;
         coachToBeUpdated.email = ctx.request.body.email;
-        coachToBeUpdated.password = await bcryptjs.hash(ctx.request.body.password, config.authSalt);
+        coachToBeUpdated.password = coach?.password;
+        
+        const errors: ValidationError[] = await validate(coachToBeUpdated, { validationError: { target: false } });
 
-        const coach = await coachRepository.createQueryBuilder("coach")
-            .addSelect("coach.password")
-            .where("coach.id = :id", { id: coachToBeUpdated.id })
-            .getOne();
-
-        const errors: ValidationError[] = await validate(coachToBeUpdated, { validationError: { target: false } }); // errors is an array of validation errors
-
-        if (errors.length > 0) {
-            ctx.status = 400;
-            ctx.body = errors;
+        if (!coach) {
+            ctx.status = 404;
+            ctx.message = "The coach you are trying to update doesn't exist in the db";
         } else if ((+ctx.state.user.id !== coachToBeUpdated.id) || (ctx.state.user.rol !== Rol.COACH)) {
             // check token is from a coach and its id and coach id are the same
             ctx.status = 403;
             ctx.message = "A coach can only be updated by its own user";
-        } else if (!await coachRepository.findOne(coachToBeUpdated.id)) {
-            ctx.status = 404;
-            ctx.message = "The coach you are trying to update doesn't exist in the db";
+        } else if (errors.length > 0) {
+            ctx.status = 400;
+            ctx.body = errors;
         } else if (await coachRepository.findOne({ id: Not(Equal(coachToBeUpdated.id)), email: coachToBeUpdated.email })) {
             ctx.status = 400;
             ctx.message = "The specified e-mail address already exists";
-        } else if (!await bcryptjs.compare(ctx.request.body.password, coach.password)) {
-            ctx.status = 400;
-            ctx.message = "Incorrect password";
         } else {
-            const coach: Coach = await coachRepository.save(coachToBeUpdated);
+            const updatedCoach: Coach = await coachRepository.save(coachToBeUpdated);
             ctx.status = 201;
-            ctx.body = coach;
+            ctx.body = updatedCoach;
         }
 
     }
