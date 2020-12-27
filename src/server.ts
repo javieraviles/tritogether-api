@@ -15,9 +15,12 @@ import { protectedRouter } from "./protected-routes";
 createConnection({
     type: "postgres",
     url: config.databaseUrl,
-    synchronize: true,
+    synchronize: false,
     logging: false,
     entities: config.dbEntitiesPath,
+    migrations: config.dbMigrationsPath,
+    migrationsTableName: config.dbMigrationsTableName,
+    migrationsRun: true,
     extra: {
         ssl: config.dbsslconn, // if not development, will use SSL
     }

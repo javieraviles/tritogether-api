@@ -11,6 +11,8 @@ export interface Config {
     authSalt: number;
     databaseUrl: string;
     dbEntitiesPath: string[];
+    dbMigrationsTableName: string;
+    dbMigrationsPath: string[];
 }
 
 const isDevMode = process.env.NODE_ENV == "development";
@@ -25,6 +27,10 @@ const config: Config = {
     databaseUrl: process.env.DATABASE_URL || "postgres://user:pass@localhost:5432/apidb",
     dbEntitiesPath: [
         ...isDevMode ? ["src/entity/**/*.ts"] : ["dist/entity/**/*.js"],
+    ],
+    dbMigrationsTableName: process.env.DB_MIGRATIONS_TABLENAME || "migrations",
+    dbMigrationsPath: [
+        ...isDevMode ? ["src/migration/*.ts"] : ["dist/migration/*.js"],
     ]
 };
 
