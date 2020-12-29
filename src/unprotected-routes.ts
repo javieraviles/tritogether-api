@@ -5,6 +5,8 @@ const unprotectedRouter = new Router();
 
 // AUTH ROUTES
 unprotectedRouter.post("/signin", auth.signIn);
+unprotectedRouter.post("/reset-password", auth.resetPassword);
+unprotectedRouter.put("/change-password", auth.changePassword);
 
 // COACH ROUTES
 unprotectedRouter.post("/coaches", coach.createCoach);

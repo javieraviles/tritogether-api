@@ -140,6 +140,7 @@ export default class AthleteController {
             ctx.status = 400;
             ctx.body = errors;
         } else if (await athleteRepository.findOne({ id: Not(Equal(athleteToBeUpdated.id)), email: athleteToBeUpdated.email })) {
+            ctx.status = 400;
             ctx.message = "The specified e-mail address already exists";
         } else {
             const updatedAthlete: Athlete = await athleteRepository.save(athleteToBeUpdated);

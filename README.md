@@ -35,6 +35,26 @@ What I would recommend is just creating a new `.ts` file in `src/migration` dir,
 
 Migrations will be executed on application startup due to the configuration specified in the DB connection.
 
+## Support email configuration
+Some functionalities within the application send emails (such as recovery password service). `Nodemailer` is used for that, and the email configuration is specified in the `.env` file. If you don't have a real email account for testing, you can use this configuration in `EmailService`:
+
+```javascript
+// Generate test SMTP service account from ethereal.email
+// Only needed if you don't have a real mail account for testing
+let testAccount = await nodemailer.createTestAccount();
+
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass, // generated ethereal password
+    },
+});
+```
+
 ## Boilerplate details
 For further information in how the different boilerplate components interact, please refer to [node-typescript-koa-rest](https://github.com/javieraviles/node-typescript-koa-rest) repo.
 

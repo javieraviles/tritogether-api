@@ -13,6 +13,13 @@ export interface Config {
     dbEntitiesPath: string[];
     dbMigrationsTableName: string;
     dbMigrationsPath: string[];
+    supportEmail: SupportEmail;
+}
+
+export interface SupportEmail {
+    smtpServer: string;
+    user: string;
+    password: string;
 }
 
 const isDevMode = process.env.NODE_ENV == "development";
@@ -31,7 +38,12 @@ const config: Config = {
     dbMigrationsTableName: process.env.DB_MIGRATIONS_TABLENAME || "migrations",
     dbMigrationsPath: [
         ...isDevMode ? ["src/migration/*.ts"] : ["dist/migration/*.js"],
-    ]
+    ],
+    supportEmail: {
+        smtpServer: process.env.SUPPORT_EMAIL_SMTP_SERVER || "smtp.ethereal.email",
+        user: process.env.SUPPORT_EMAIL_USER || "testUser",
+        password: process.env.SUPPORT_EMAIL_PASSWORD || "testPassword"
+    }
 };
 
 export { config };

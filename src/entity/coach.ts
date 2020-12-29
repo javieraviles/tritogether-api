@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Length, IsEmail } from "class-validator";
+import { Length, IsEmail, IsOptional } from "class-validator";
 
 @Entity()
 export class Coach {
@@ -25,6 +25,15 @@ export class Coach {
     })
     @Length(60)
     password: string;
+
+    @Column({
+        length: 60,
+        nullable: true,
+        select: false
+    })
+    @Length(60)
+    @IsOptional()
+    tmpPassword: string;
 
     @CreateDateColumn({
         type: "timestamp",

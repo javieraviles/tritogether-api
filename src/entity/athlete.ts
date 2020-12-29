@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from "typeorm";
-import { Length, IsEmail } from "class-validator";
+import { Length, IsEmail, IsOptional } from "class-validator";
 import { Coach, Availability } from "../entity";
 
 @Entity()
@@ -26,6 +26,15 @@ export class Athlete {
     })
     @Length(60)
     password: string;
+
+    @Column({
+        length: 60,
+        nullable: true,
+        select: false
+    })
+    @Length(60)
+    @IsOptional()
+    tmpPassword: string;
 
     @ManyToOne(type => Coach, { onDelete: "SET NULL" })
     coach: Coach;

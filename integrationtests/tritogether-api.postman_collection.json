@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7dd85f70-5689-4ce3-9f96-b091937c9afa",
+		"_postman_id": "5b000c35-c5c7-4432-89cc-5df1180454cc",
 		"name": "tritogether-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "57f9e1ae-940d-4d69-9ed3-3ce9c86e2bc8",
+								"id": "f1344db2-3999-43e9-959c-36719055d03f",
 								"exec": [
 									"pm.test(\"Create coach id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -68,7 +68,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6c1b77cf-8af0-469d-8fc2-ccc2b16ff663",
+								"id": "fa205052-d3c5-44ce-bb85-3ea1c453b30a",
 								"exec": [
 									"pm.test(\"Error email exists\", function () {",
 									"    pm.response.to.have.body(\"The specified e-mail address already exists\");",
@@ -121,7 +121,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0ab301d6-34b3-4f3a-8cc9-d79f78912b06",
+								"id": "e071ef56-3d8d-4ef4-930c-10c6c9896220",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -174,7 +174,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c215fa10-64d2-45f3-b50a-611b7d242772",
+								"id": "902b644f-c493-4619-8923-abb52c22ce38",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -228,7 +228,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a440c8df-d9f8-4714-9068-7352367b1f91",
+								"id": "c3db1e97-4243-45d6-9221-df1e3370855c",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -281,7 +281,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d9c66972-5025-4f68-9442-28e425c06f6f",
+								"id": "0eb20ed7-2c30-4f82-abd6-ba768c02df3b",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -335,7 +335,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "142c2313-003e-4b62-ac58-aaf3e5e46c16",
+								"id": "3a538627-9eb1-471f-bd56-010d930eb005",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -391,7 +391,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d83b8a06-988f-4ec9-821a-4c4cf6373bf0",
+								"id": "0827e4dd-8583-4771-9dd8-ab6bcbf70a3d",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -451,7 +451,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e849a004-dd75-4add-bf42-29686bd74952",
+								"id": "4e15a9b5-f62a-4149-bcac-0abc339a28fd",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -510,7 +510,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0703af2a-92e0-4c2a-846f-ee8d8b5f089c",
+								"id": "93275108-7558-41bb-95c1-cfa07b0863a9",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -569,7 +569,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d122c251-3166-478e-aed3-72b1a5caf607",
+								"id": "ec351eb5-90e6-4233-924e-1985baa9abc0",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -612,7 +612,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "651f07cb-54bf-4a4a-9833-5686f37b0987",
+								"id": "b1604bec-9158-44e6-b14c-e796112602f5",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -654,7 +654,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ab47807a-bbf3-41ad-93ce-dbfd1931a746",
+								"id": "4a67e241-f5d8-437f-8db4-47eec887f237",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -691,7 +691,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8ce72b86-41e7-4d83-8780-288ce068f540",
+								"id": "e991f4f3-55b9-43a7-82d4-92f4b0bebfff",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -730,7 +730,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "565bf08d-18c7-404d-8c51-13d46ee97e19",
+								"id": "21a45c8a-8c54-42f3-85b0-dabc1e00b2bf",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -773,7 +773,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "14718c4e-37a5-4591-8aa3-86e7022eab1f",
+								"id": "2edcc7a6-ab83-412a-bf5a-b6d66309e4e6",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -816,7 +816,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "704108f4-6e65-4bc4-a2c0-bdd628bba868",
+								"id": "2c368b7a-126e-48ec-8d6c-8f1a71168c4f",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -858,7 +858,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e014593f-296a-45df-9a61-fc89f59f3412",
+								"id": "d07afbfa-d4f3-4eed-87a3-e697edc00625",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -906,7 +906,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c463023c-52b1-4c75-8e67-fa65d515ed2b",
+								"id": "a0577dd9-955b-41e1-aa52-7e059419b296",
 								"exec": [
 									"pm.test(\"Create athlete id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -968,7 +968,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "086a3266-d1ac-4836-98cc-5e1395c86e88",
+								"id": "1ea267ce-06b3-4bd4-9b5e-e73cab2d5541",
 								"exec": [
 									"pm.test(\"Error email exists\", function () {",
 									"    pm.response.to.have.body(\"The specified e-mail address already exists\");",
@@ -1021,7 +1021,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a149827b-d535-4fe2-b5c4-38ade91ed03d",
+								"id": "788808b0-2ac9-46fb-8f15-e8331f233ce0",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1074,7 +1074,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a6b0310c-5f2f-45b6-802c-338d8ecb98cf",
+								"id": "558b1a69-f57a-48ab-8fd3-77f445a04d79",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1128,7 +1128,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "72a7262b-275f-413d-926e-565d3e7ea89e",
+								"id": "ac0ed83c-c1e0-40ad-ab9b-3c545da5b26c",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1181,7 +1181,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb5c0ed7-b5c2-4803-9a7e-cb9e005cade5",
+								"id": "4a72c193-9e61-4468-966d-65f6aef9dc6b",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -1235,7 +1235,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "480dfbe3-28dd-447f-beda-5b3faac29e92",
+								"id": "5e9c66a9-7a08-4df1-b737-648a2236ed5d",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -1291,7 +1291,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5b4c36ec-a73b-4580-b5dd-5cde73a8102b",
+								"id": "0ffae17a-4976-400c-b54f-a0b938cc4fb4",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -1351,7 +1351,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a11224cd-bfaf-48c4-a5e0-a0ee6fad0742",
+								"id": "9c63f7a0-4720-4dbc-b169-3b63ca9e2ac5",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1410,7 +1410,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ab6c528c-78e0-4251-bfed-0a6b8f6526ba",
+								"id": "110f208e-709a-4873-a801-a32c61051fce",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1469,7 +1469,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "565fa9e4-c6a7-4f06-8906-b6d34524c60a",
+								"id": "a16f7472-21ae-4d1a-863f-399f4a19137a",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -1517,7 +1517,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "398395c0-28eb-4b6f-91b3-e29c8dcae383",
+								"id": "a2148246-686e-4c2d-9155-4c1b4ccbe363",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1559,7 +1559,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "803496f7-e9a0-422a-a1ed-f4113d2fe866",
+								"id": "d1b14b15-a8e3-4320-b350-f936dea2f587",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1601,7 +1601,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "67019ab9-4f8e-445c-9a24-b957c11b0bf9",
+								"id": "3b90027f-3415-45f8-b25d-f9ec4e355c6b",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -1638,7 +1638,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "16d51f63-9f84-419b-aceb-f024055952f2",
+								"id": "0c06ccb1-3179-4ba9-9da3-131cf1956037",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1698,7 +1698,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5533047d-ce3a-44da-b412-7bb9f0d24c00",
+								"id": "f8cf811e-3f62-417f-8ab2-72b98c08fb50",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -1758,7 +1758,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "816324a4-1570-4317-b5bd-e5c9a6834cdb",
+								"id": "09cd20ce-aa06-4e07-967c-348da086c203",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -1812,7 +1812,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c6ae5b04-00db-486a-b184-ef5461999c8f",
+								"id": "f882fc6b-6f6d-48c1-adb4-0500164865fb",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1872,7 +1872,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3aec7bf7-180a-4b7b-9309-f8aaf3ada9ed",
+								"id": "7ad25863-aa69-45cb-8cd0-825b1ad467f8",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -1932,7 +1932,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1e41595d-d989-43b6-b353-38cfc2c06d91",
+								"id": "554ccdc5-bd25-4b8a-9f1a-c5489d2dd2ab",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -1986,7 +1986,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7fe275ac-f90c-4283-9716-c4eba12972c1",
+								"id": "27811888-bcee-4843-a5f6-e2d68f0fa310",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2052,7 +2052,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5a07f6df-edc3-4437-a761-8bb4e4e0a738",
+								"id": "16693787-de50-4e67-8bf6-71dc316396e3",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2106,7 +2106,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "61a79cfc-c2ec-4b0d-a177-9dfee5baa8a0",
+								"id": "efc5ed51-463f-48a5-a01d-2011d27e5fbd",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2168,7 +2168,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "386ef3e8-8fa7-4e56-8da3-34fe16155098",
+								"id": "8cc57734-1182-4fff-8680-1d7f886a1404",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -2228,7 +2228,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9bcb83eb-19bc-44d0-9f99-e9c732729add",
+								"id": "596ce0a5-c50d-4437-982b-c5ef2046f8d2",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -2288,7 +2288,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4de199e7-680f-4cf3-af07-a83ab96ec0b7",
+								"id": "5a4c42f5-42cd-4f9b-8aeb-1c39f4af1d98",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -2331,7 +2331,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "470b3bce-8080-4658-94d5-b0e8d12f1993",
+								"id": "5b36887f-fab2-4b01-b541-2c1b31f01d92",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2385,7 +2385,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "68a0a934-6cd4-44f6-a78f-860f6dcd3a35",
+								"id": "8eae5db5-9fd6-4d60-9051-d8d67a459a4e",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2446,7 +2446,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b31d22fd-6b42-4a68-9702-f3d58eeba9fa",
+								"id": "0053b22e-c865-4761-bf46-2cd5c1f7d7e4",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -2508,7 +2508,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c621d00f-fafc-4fed-a1fa-c2628df89210",
+								"id": "842dcf17-f37e-47a6-af7e-6ec3eb936a2f",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2562,7 +2562,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d19f5470-c7e3-4333-9c6c-5bf6e3c8bc72",
+								"id": "14fe69fc-83b6-4a23-86ae-99b807923908",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -2604,7 +2604,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "de698c6d-562d-4ace-b5a5-1d9a09b23eb9",
+								"id": "6e7b2f76-fe32-4c20-ba1e-28fcf1e2b254",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -2652,7 +2652,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4a917a24-a1fe-484a-a254-b07aabf985d0",
+								"id": "543c0d20-2228-466f-a016-061d08b6d364",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -2703,7 +2703,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c2307178-5b18-4379-8065-c1f4d600c100",
+								"id": "a01dc99f-3dec-476c-bb6f-ce8b5b8106c0",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -2754,7 +2754,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1d2d87b5-14a7-4ac5-88fd-24df240143cc",
+								"id": "2c1526c8-ac17-4456-b3e2-b98c678a8b37",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -2807,7 +2807,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fd1a03b7-a5f5-46a9-b97b-e635f97e3eff",
+								"id": "3f82da15-bf8a-458d-a8b5-8a3cbd80f7bb",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -2861,7 +2861,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b0dab5fc-7533-4e1e-8733-dc92f6c17094",
+								"id": "c4973317-229a-4eb3-ac98-d8d82fbfb713",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -2912,7 +2912,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "abcee63b-7760-47a7-ba1a-e8f1b0c1d2ea",
+								"id": "59919170-77fd-4ff6-885c-9ec9eec22d1a",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -2963,7 +2963,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9b975cc8-f1a2-4ff8-b8cb-72b2153dca9b",
+								"id": "9b5068f8-e073-4a4e-896b-48b4dcf742eb",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -3016,7 +3016,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3e64fb04-2625-4529-a07c-8342acd29c5f",
+								"id": "49ca1635-232b-4409-b1dc-05e71e747ab9",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3076,7 +3076,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "31571268-2a13-4bb2-a2c7-836dbb8e0e6e",
+								"id": "63397361-7c26-4d88-bc7e-de4d38567ace",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -3130,7 +3130,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "297a8347-3e48-40e6-aa08-751e9a904ace",
+								"id": "0d47edd8-5ff6-44e3-9bab-0788641a9003",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3190,7 +3190,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a52dce50-8b64-49f9-96e5-c4b17c27dd2c",
+								"id": "937536f3-a0aa-4e0c-a963-f44a1c9ff881",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3250,7 +3250,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "18871bf7-5592-4c2d-814b-4d58d58567fe",
+								"id": "13aa5ca8-7ad6-4f96-92fc-7d0b3804b890",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -3311,7 +3311,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c8586773-69ec-462d-a75b-e3d08780b27e",
+								"id": "1cde75de-9587-492e-bbf9-492291d5cdf7",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3372,7 +3372,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cadebf48-7493-4a09-9443-afe8ed2a7f65",
+								"id": "52d5a26e-e8e6-4b63-9cc9-630ea18c946f",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3433,7 +3433,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9168323e-9711-491b-9c6e-7734616bbb2e",
+								"id": "0fb1dff6-dbf5-4ccd-ba96-cea57646dfe8",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3494,7 +3494,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "402ac94f-ed5f-4885-92d2-822474a96177",
+								"id": "b8e0a0c7-fa88-4d6a-b5ce-1ba4e7a9cd65",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -3563,7 +3563,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb9d9cb5-c43e-4e59-87f8-d637dadf7d3f",
+								"id": "5d41216e-9486-4150-8280-0a36a11482bb",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -3617,7 +3617,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "640ba727-1ae8-432b-a682-dcc9ca28e148",
+								"id": "8c094059-8ed7-4afe-8b89-9fd0ee2b0624",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -3677,7 +3677,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2e67b356-ec25-4335-8099-1eb4a8d0a67a",
+								"id": "4383f320-c199-4de2-bc09-1fcce39c99da",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -3737,7 +3737,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f9845c38-7c80-42b8-900c-904847632c9c",
+								"id": "52ba8294-1426-4a21-947c-cd7bc67bb3f8",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3797,7 +3797,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d057a326-0d9d-437d-814c-a026d49b07b3",
+								"id": "0390a1f6-c11c-4b89-8913-cefb52e19ac4",
 								"exec": [
 									"pm.test(\"Create activity id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -3858,7 +3858,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "011a6d3c-1b08-4e49-9ee1-db5d38056ea8",
+								"id": "9f0f2a21-e6d1-456f-8bee-c0ef650849a1",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -3915,7 +3915,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f6dfe8f9-702e-4d80-b901-0f3e31227c1d",
+								"id": "e8867fa2-3448-4b0e-82a6-25d047bf3184",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -3972,7 +3972,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7aa4eada-3652-46da-9051-8f4fdacddf82",
+								"id": "ef25c966-e0fc-4e51-9f00-b5e1d15690cb",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -4024,7 +4024,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4d6157b4-691d-41e6-86aa-d14602b853c1",
+								"id": "b4204856-b323-4c74-82c3-9a0b65328ad3",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -4083,7 +4083,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e07746f7-907b-45b3-808e-7baf3142ce5a",
+								"id": "02831780-de62-4ece-a51a-4168c8cb9374",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4135,7 +4135,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0913b96c-dd7f-4522-86e9-36438c5724f9",
+								"id": "37b47070-20a7-4e9e-a52c-ef4bbc22eff2",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4187,7 +4187,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1f199b3-0ab3-48da-8cfe-58823f46ff46",
+								"id": "3dd90e30-7f43-4fa0-8e53-de6f8e743e9c",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -4239,7 +4239,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8a622d6f-ebf1-405f-8988-f564854434fe",
+								"id": "98e05927-5791-40bd-8991-7921e0fd0b76",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -4293,7 +4293,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13db7c6d-ed39-4602-a6b5-e0c99c8ec4fa",
+								"id": "1d7ea4b6-ae62-4877-a414-16f7ac74e480",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4354,7 +4354,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6c2d480b-dcd8-4a61-817e-760d24305ce9",
+								"id": "10feb3d6-af67-4945-a1f3-de51499bc3c7",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -4415,7 +4415,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "be40278a-33bc-4a33-9802-a1d372d9f9b5",
+								"id": "ab0b8757-f89e-4bdd-b438-2c7ce67c473d",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -4476,7 +4476,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3b31fa53-f99e-4688-a21d-ace598877c9b",
+								"id": "b3536a71-512e-4405-b139-3c2cba25edc9",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -4539,7 +4539,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c96d778e-70aa-432b-897b-989914459a65",
+								"id": "df17152a-00b8-476c-bc65-fddf22868d07",
 								"exec": [
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
@@ -4582,7 +4582,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "18366df8-19ba-4bcf-acf8-2870fe119c04",
+								"id": "3ed6df56-5368-4ae0-8c6c-552460012c41",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {",
 									"    pm.response.to.have.status(400);",
@@ -4625,7 +4625,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c9264b54-13be-4eed-a581-abaae4eaf944",
+								"id": "f5f641c8-0b3b-4ffb-a902-c6a9052b7d82",
 								"exec": [
 									"pm.test(\"Status code is 403\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -4666,6 +4666,592 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Reset password email not specified 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0aae2b2f-d760-4283-8f66-a3b679499622",
+								"exec": [
+									"pm.test(\"Email must be specified\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Email must be specified\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reset-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password email not found 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0d5e83e9-e6c9-4670-9631-4ae56a3ec350",
+								"exec": [
+									"pm.test(\"Email must be specified\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Email not found\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"coach-unknown@citest.com\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reset-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3fd9bebf-be0c-4ffd-9c4e-e15b7c7ed9ff",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"coach@citest.com\",\r\n\t\"isCoach\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reset-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password email missing 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1d72dc5-0ccf-451d-b29b-67e846f0a0b4",
+								"exec": [
+									"pm.test(\"Email must be specified\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Both email and passwords must be specified\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"password\": \"_TriTogether20_\",\r\n    \"newPassword\": \"?TriTogether2021*\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password, password missing 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9b644c6-da3b-43fa-a600-f116736922fd",
+								"exec": [
+									"pm.test(\"Password must be specified\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Both email and passwords must be specified\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password, new password missing 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "07dec0d2-4b9c-490a-961f-bcbd7ff7b3b8",
+								"exec": [
+									"pm.test(\"New password must be specified\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Both email and passwords must be specified\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password, new password non compliant 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7375f65-9fac-42d9-a548-143547ac6bce",
+								"exec": [
+									"pm.test(\"Password too short\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The new password must be at least 8 characters long\");",
+									"});",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n    \"newPassword\": \"?TriTog\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password missing user 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "652eb43e-97ca-47ca-b784-3259f83820b1",
+								"exec": [
+									"pm.test(\"User not found\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"User not found\");",
+									"});",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete-unknown@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n    \"newPassword\": \"?TriTogether2021*\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password, incorrect password 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46978459-c92c-4f54-bd6e-6124fd7b4c73",
+								"exec": [
+									"pm.test(\"Incorrect password\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Incorrect password\");",
+									"});",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"wrong-password\",\r\n    \"newPassword\": \"?TriTogether2021*\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password, non temporary password 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "be503307-d40a-4b5e-8ab0-10fe65278a6f",
+								"exec": [
+									"pm.test(\"Incorrect password\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Incorrect password\");",
+									"});",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n    \"newPassword\": \"?TriTogether2021*\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c4badc2d-5b4f-4bf2-8dd6-feb352abc5e2",
+								"exec": [
+									"pm.test(\"Password updated successfully\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Password updated successfully\");",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n    \"newPassword\": \"?TriTogether2021*\",\r\n\t\"isCoach\": false,\r\n    \"isTemporary\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Deletions",
 			"item": [
 				{
@@ -4674,7 +5260,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "76b45477-1efa-4e2e-b564-e40ebc0bc648",
+								"id": "c52abf34-eb23-4ca3-825c-55c0add36c58",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -4714,7 +5300,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "819c5334-ec54-40d5-a56c-3b8b3fea617d",
+								"id": "e8d20605-26d3-4c3d-9828-942ccadaa49b",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -4743,7 +5329,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"_TriTogether20_\",\r\n\t\"isCoach\": false\r\n}",
+							"raw": "{\r\n\t\"email\": \"athlete@citest.com\",\r\n\t\"password\": \"?TriTogether2021*\",\r\n\t\"isCoach\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4768,7 +5354,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "11fd1161-a068-4fa4-bef8-254f5fe7a340",
+								"id": "287bea9d-7dde-447c-b97c-27f9e4ecdd9f",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -4806,7 +5392,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c694e0ec-380f-434b-b24c-7dc6f018b8a8",
+								"id": "e7110e72-5c69-4993-9574-173bd5a4ece6",
 								"exec": [
 									"pm.test(\"Create user id variable\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -4860,7 +5446,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7880d0f7-e620-45a8-ae3e-2da90158794c",
+								"id": "4b5fbadc-8b93-4192-8397-995f99e42d7c",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
