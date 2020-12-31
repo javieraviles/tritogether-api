@@ -5037,7 +5037,7 @@
 					"response": []
 				},
 				{
-					"name": "Change password missing user 401",
+					"name": "Change password missing user 400",
 					"event": [
 						{
 							"listen": "test",
@@ -5047,8 +5047,8 @@
 									"pm.test(\"User not found\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"User not found\");",
 									"});",
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -5090,7 +5090,7 @@
 					"response": []
 				},
 				{
-					"name": "Change password, incorrect password 401",
+					"name": "Change password, incorrect password 400",
 					"event": [
 						{
 							"listen": "test",
@@ -5100,8 +5100,8 @@
 									"pm.test(\"Incorrect password\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Incorrect password\");",
 									"});",
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -5143,7 +5143,7 @@
 					"response": []
 				},
 				{
-					"name": "Change password, non temporary password 401",
+					"name": "Change password, non temporary password 400",
 					"event": [
 						{
 							"listen": "test",
@@ -5153,8 +5153,8 @@
 									"pm.test(\"Incorrect password\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Incorrect password\");",
 									"});",
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -5203,11 +5203,8 @@
 							"script": {
 								"id": "c4badc2d-5b4f-4bf2-8dd6-feb352abc5e2",
 								"exec": [
-									"pm.test(\"Password updated successfully\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"Password updated successfully\");",
-									"});",
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
 									"});"
 								],
 								"type": "text/javascript"
