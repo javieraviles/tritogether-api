@@ -4,6 +4,7 @@ import { BaseContext } from "koa";
 import { config } from "../config";
 import { getManager, Repository } from "typeorm";
 import { request, summary, body, responsesAll, tagsAll } from "koa-swagger-decorator";
+import logger from "winston";
 import { Athlete, Coach, Rol } from "../entity";
 import { emailService } from "../service";
 
@@ -50,12 +51,14 @@ export default class AuthController {
             // load coach by email, query users queryBuilder to addSelect(password), otherwise hidden
             user = await coachRepository.createQueryBuilder("coach")
                 .addSelect("coach.password")
+                .addSelect("coach.tmpPassword")
                 .where("coach.email = :email", { email: ctx.request.body.email })
                 .getOne();
         } else {
             // load athlete by email, query users queryBuilder to addSelect(password), otherwise hidden
             user = await athleteRepository.createQueryBuilder("athlete")
                 .addSelect("athlete.password")
+                .addSelect("athlete.tmpPassword")
                 .where("athlete.email = :email", { email: ctx.request.body.email })
                 .getOne();
         }
@@ -79,8 +82,18 @@ export default class AuthController {
             rol: rol
         }, config.jwtSecret, { expiresIn: config.jwtExpiration });
 
+        if(user.tmpPassword != null) {
+            user.tmpPassword = null;
+            if (Boolean(ctx.request.body.isCoach)) {
+                await coachRepository.save(user);
+            } else {
+                await athleteRepository.save(user);
+            }
+        }
+
         ctx.status = 200;
         delete user.password;
+        delete user.tmpPassword;
         user.rol = rol;
         /* eslint-disable @typescript-eslint/camelcase */
         ctx.body = { user: user, access_token: token };
@@ -123,10 +136,18 @@ export default class AuthController {
         } else {
             await athleteRepository.save(user);
         }
-
-        emailService.sendPasswordRecoveryEmail(tmpPassword, ctx.request.body.email);
-
-        ctx.status = 204;
+        try {
+            await emailService.sendPasswordRecoveryEmail(tmpPassword, ctx.request.body.email);
+            ctx.status = 204;
+        } catch (e) {
+            if (e.errno === "ETIMEOUT" || e.errno === "ENOTFOUND") {
+                ctx.status = 500;
+                ctx.message = "The service seems very busy at the moment, please try later.";
+                logger.error(`Error trying to communicate with the SMTP server: ${e}`);
+            } else {
+                throw e;
+            }
+        }
     }
 
     @request("put", "/change-password")
@@ -167,7 +188,7 @@ export default class AuthController {
         }
 
         if (!user) {
-            ctx.status = 401;
+            ctx.status = 400;
             ctx.message = "User not found";
             return;
         }
@@ -175,7 +196,7 @@ export default class AuthController {
         const validPassword = Boolean(ctx.request.body.isTemporary) ? user.tmpPassword || "" : user.password;
 
         if (!await bcryptjs.compare(ctx.request.body.password, validPassword)) {
-            ctx.status = 401;
+            ctx.status = 400;
             ctx.message = "Incorrect password";
             return;
         }
@@ -187,8 +208,7 @@ export default class AuthController {
         } else {
             await athleteRepository.save(user);
         }
-        ctx.status = 200;
-        ctx.message = "Password updated successfully";
+        ctx.status = 204;
     }
 
     private static generateTmpPassword() {
