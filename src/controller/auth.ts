@@ -82,7 +82,7 @@ export default class AuthController {
             rol: rol
         }, config.jwtSecret, { expiresIn: config.jwtExpiration });
 
-        if(user.tmpPassword != null) {
+        if (user.tmpPassword != null) {
             user.tmpPassword = null;
             if (Boolean(ctx.request.body.isCoach)) {
                 await coachRepository.save(user);
@@ -140,13 +140,9 @@ export default class AuthController {
             await emailService.sendPasswordRecoveryEmail(tmpPassword, ctx.request.body.email);
             ctx.status = 204;
         } catch (e) {
-            if (e.errno === "ETIMEOUT" || e.errno === "ENOTFOUND") {
-                ctx.status = 500;
-                ctx.message = "The service seems very busy at the moment, please try later.";
-                logger.error(`Error trying to communicate with the SMTP server: ${e}`);
-            } else {
-                throw e;
-            }
+            ctx.status = 500;
+            ctx.message = "The service seems very busy at the moment, please try later.";
+            logger.error(`Error trying to communicate with the SMTP server: ${e}`);
         }
     }
 
